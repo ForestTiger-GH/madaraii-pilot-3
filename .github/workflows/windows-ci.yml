@@ -1,0 +1,29 @@
+name: Windows CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Build
+        shell: pwsh
+        run: dotnet build src/MiniDoc/MiniDoc.csproj -c Release --nologo
+      - name: Publish self-contained
+        shell: pwsh
+        run: dotnet publish src/MiniDoc/MiniDoc.csproj -c Release -r win-x64 --self-contained true --nologo -o artifacts/publish
+      - name: Check product references
+        shell: pwsh
+        run: |
+          $project = Get-Content src/MiniDoc/MiniDoc.csproj -Raw
+          if ($project -match '<PackageReference') { throw 'Product PackageReference is prohibited.' }
+          if (-not (Test-Path artifacts/publish/MiniDoc.exe)) { throw 'MiniDoc.exe was not published.' }
