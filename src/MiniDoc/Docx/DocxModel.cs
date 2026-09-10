@@ -39,3 +39,6 @@ public sealed class DocxOpenResult
 
 internal sealed record ParagraphSource(XAttribute[] Attributes, XElement? Properties);
 internal sealed record RunSource(XAttribute[] Attributes, XElement? Properties);
+internal sealed record TableSource(XAttribute[] Attributes, XElement? Properties);
+internal sealed record TableRowSource(XAttribute[] Attributes);
+internal sealed record TableCellSource(XAttribute[] Attributes, XElement? Properties);
