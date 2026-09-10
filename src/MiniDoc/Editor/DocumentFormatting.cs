@@ -9,13 +9,13 @@ internal static class DocumentFormatting
 {
     internal static void ApplyTextHighlight(RichTextBox editor, Brush brush)
     {
-        EnsureOpaque(brush, "Text highlight");
+        EnsureSolidOrTransparent(brush, "Text highlight");
         editor.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, brush);
     }
 
     internal static void ApplyParagraphFill(RichTextBox editor, Brush brush)
     {
-        EnsureOpaque(brush, "Paragraph fill");
+        EnsureSolidOrTransparent(brush, "Paragraph fill");
         foreach (var paragraph in SelectedParagraphs(editor)) paragraph.Background = brush;
     }
 
@@ -43,8 +43,7 @@ internal static class DocumentFormatting
     {
         var start = editor.Selection.Start;
         var end = editor.Selection.End;
-        if (start.CompareTo(end) == 0 && start.Paragraph is not null)
-            return [start.Paragraph];
+        if (start.CompareTo(end) == 0 && start.Paragraph is not null) return [start.Paragraph];
 
         var result = new List<Paragraph>();
         foreach (var paragraph in EnumerateParagraphs(editor.Document.Blocks))
@@ -69,9 +68,9 @@ internal static class DocumentFormatting
         }
     }
 
-    private static void EnsureOpaque(Brush brush, string name)
+    private static void EnsureSolidOrTransparent(Brush brush, string name)
     {
-        if (brush is not SolidColorBrush solid || solid.Color.A != 255)
-            throw new InvalidOperationException($"{name} must be an opaque solid RGB colour.");
+        if (brush is not SolidColorBrush solid || (solid.Color.A != 0 && solid.Color.A != 255))
+            throw new InvalidOperationException($"{name} must be transparent or an opaque solid RGB colour.");
     }
 }
