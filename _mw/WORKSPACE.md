@@ -20,9 +20,11 @@
 | Work Architecture | `WA-0001` | [`architecture/WORK-ARCHITECTURE.md`](architecture/WORK-ARCHITECTURE.md) |
 | Work contour / Commission | `WORK-0001` | [`work/WORK-0001.md`](work/WORK-0001.md) |
 | Work State | `WORKSTATE-0001` | [`work/STATE.md`](work/STATE.md) |
-| Raw human inbox | `INBOX-0001` | [`inbox/INBOX-0001.md`](inbox/INBOX-0001.md) |
+| Raw initial human inbox | `INBOX-0001` | [`inbox/INBOX-0001.md`](inbox/INBOX-0001.md) |
+| Raw additional human inbox | `INBOX-0002` | [`inbox/INBOX-0002.md`](inbox/INBOX-0002.md) |
 | Inbox registry | `INBOX-REGISTRY-0001` | [`inbox/INDEX.md`](inbox/INDEX.md) |
-| Developed actor input | `INPUT-DEV-0001` | [`intake/INBOX-0001-developed.md`](intake/INBOX-0001-developed.md) |
+| Developed initial actor input | `INPUT-DEV-0001` | [`intake/INBOX-0001-developed.md`](intake/INBOX-0001-developed.md) |
+| Developed additional actor input | `INPUT-DEV-0002` | [`intake/INBOX-0002-developed.md`](intake/INBOX-0002-developed.md) |
 | Decisions | `DECISION-OWNER-0001` | [`decisions/DECISIONS.md`](decisions/DECISIONS.md) |
 | Questions | `QUESTION-OWNER-0001` | [`questions/QUESTIONS.md`](questions/QUESTIONS.md) |
 | Research history | owner route | `_mw/research/` when established |
