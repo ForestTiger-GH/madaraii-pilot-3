@@ -1,15 +1,13 @@
 # Questions
 
-## Current pool
+## Disposition after Research/Target formation
 
-No human-blocking Question is open at bootstrap.
+| Question | Disposition |
+|---|---|
+| Q-0001 Windows-native/official stack | resolved by `SCIENCE-0001`, D-0002/D-0007 |
+| Q-0002 safe DOCX subset/save model | resolved for v0.1 by `SCIENCE-0001`, D-0003/D-0005 |
+| Q-0003 viable PDF subset | resolved for v0.1 by `SCIENCE-0001`, D-0002/D-0008; actual process exit remains a Windows verification obligation, not a design Question |
+| Q-0004 install/uninstall cleanliness | resolved by D-0004/D-0006 and Target HOW; actual residue is a Windows verification obligation |
+| Q-0005 verification split | resolved by `RT-004` and `PLAN-0001` |
 
-The following engineering Questions are authorized for Research rather than human clarification:
-
-- Q-0001: Which Windows-native/official platform stack can provide GUI, basic rich-text editing, PDF rendering, packaging/build, and installation without third-party product dependencies?
-- Q-0002: What DOCX subset and save model can be implemented safely while preserving unsupported package material and refusing destructive edits?
-- Q-0003: What PDF viewer subset is viable through Windows-provided capabilities, and what limits follow?
-- Q-0004: What install/uninstall and runtime-state design best supports the explicit cleanliness requirements?
-- Q-0005: Which claims can be verified in the current agent environment, and which require Windows-local verification?
-
-These are Research inputs, not blockers to begin Research.
+No human-blocking or implementation-blocking Question is open. Windows-local evidence gaps remain owned by Verification rather than this Question pool.

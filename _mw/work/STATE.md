@@ -1,32 +1,29 @@
 # WORKSTATE-0001 — Current Work State
 
-**Cutoff:** 2026-09-11 bootstrap  
+**Cutoff:** 2026-09-11 after Research/Target/Plan formation  
 **Active contour:** `WORK-0001`  
 **Governing MADARAII revision:** `7d5ef3d92c4e0982061d422208fdf913c55cc604`
 
 ## Reconciled state
 
-- Commission: admitted and active.
-- Engineering Subject/boundary: established in `WORK-0001`.
-- Work Architecture: `WA-0001` accepted.
-- Workspace realization: bootstrap mapping ready for materialization in this commit.
-- Raw human input: `INBOX-0001` preserved with immutable-source policy.
-- Actor input development: `INPUT-DEV-0001` established.
-- Product Baseline: absent.
-- Current Scientific Knowledge: absent.
-- Target WHAT: absent.
-- Target HOW: absent.
-- Evidence: bootstrap/repository evidence only.
-- Material external effects: repository writes only; no Windows installation/deployment has occurred.
+- Commission / Work Architecture / workspace: admitted and cold-recoverable.
+- Raw inbox `INBOX-0001`: preserved; developed input `INPUT-DEV-0001`: established.
+- Research program `RP-0001`: complete for v0.1 Target formation; four Results established.
+- Current Scientific Knowledge `SCIENCE-0001`: admitted.
+- Target WHAT `TARGET-WHAT-0001`: accepted.
+- Target HOW `TARGET-HOW-0001`: accepted.
+- Product Architecture `PA-0001`: accepted.
+- Plan `PLAN-0001`: admitted.
+- Product Baseline: absent; implementation has not yet been admitted.
+- Questions: no implementation blocker.
+- External/system effects: repository writes only. No Windows build/install/runtime execution has occurred.
 
 ## Current safe posture
 
-**Next justified Work:** qualify and execute the bounded external Research required by `INPUT-DEV-0001`, then assimilate adequate findings into Current Scientific Knowledge before any material technical target commitment.
+**Next justified Work:** execute `PLAN-0001` implementation slices and establish an exact Product candidate plus producer evidence under `ENGINEERING_PRODUCT_IMPLEMENTATION`.
 
-**Primary work kinds:** `RESEARCH_TOPIC_DEVELOPMENT` → commissioned `EXTERNAL_DESCRIPTIVE_RESEARCH` as required.  
-**Required inputs:** `WORK-0001`, `INPUT-DEV-0001`, current Questions, and governing MADARAII revision.  
-**Discovery boundary:** public authoritative specifications/documentation and materially useful implementation analogues. Other user repositories/workspaces remain prohibited.
+Re-resolve target/plan owners immediately before writes. Do not convert Windows-local evidence obligations into claimed conformance.
 
-## Recovery test
+## Required read closure for implementation
 
-A cold actor can recover this posture from `_mw/WORKSPACE.md` without chat history. If this statement conflicts with a later owner revision, the later committed owner state wins only after normal integrity and applicability checks.
+`WORK-0001` → `TARGET-WHAT-0001` → `TARGET-HOW-0001` → `PA-0001` → `PLAN-0001`, plus current Decisions. `SCIENCE-0001` is historical design provenance at this point and is not required by the implementation consumer unless a design premise is challenged.
