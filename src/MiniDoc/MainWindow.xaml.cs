@@ -1,18 +1,20 @@
 using Microsoft.Win32;
 using MiniDoc.Docx;
+using MiniDoc.Editor;
 using MiniDoc.Pdf;
 using MiniDoc.Storage;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Ribbon;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 
 namespace MiniDoc;
 
-public partial class MainWindow : Window
+public partial class MainWindow : RibbonWindow
 {
     private enum DocumentMode { None, EditableDocx, ReadOnlyDocx, Pdf }
 
@@ -32,13 +34,17 @@ public partial class MainWindow : Window
         InitializeComponent();
         _suppressDirty = true;
         FontFamilyBox.SelectedIndex = 0;
-        FontSizeBox.SelectedIndex = 2;
+        FontSizeBox.SelectedIndex = 3;
         ColorBox.SelectedIndex = 0;
+        HighlightBox.SelectedIndex = 0;
+        ParagraphFillBox.SelectedIndex = 0;
+        CellFillBox.SelectedIndex = 0;
         _suppressDirty = false;
         StartNewDocument();
     }
 
     private bool IsEditableDocx => _mode == DocumentMode.EditableDocx;
+    private bool IsDocxView => _mode is DocumentMode.EditableDocx or DocumentMode.ReadOnlyDocx;
 
     private void New_Click(object sender, RoutedEventArgs e)
     {
@@ -249,6 +255,8 @@ public partial class MainWindow : Window
         if (!_suppressDirty && IsEditableDocx) MarkDirty();
     }
 
+    private void Editor_SelectionChanged(object sender, RoutedEventArgs e) => UpdateTableControls();
+
     private void Editor_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
     {
         if (e.Command == ApplicationCommands.Paste && IsEditableDocx)
@@ -280,10 +288,122 @@ public partial class MainWindow : Window
     private void ColorBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (_suppressDirty || !IsEditableDocx || ColorBox.SelectedItem is not ComboBoxItem item || item.Tag is not string value) return;
-        var brush = (Brush)new BrushConverter().ConvertFromString(value)!;
-        Editor.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, brush);
+        Editor.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, ParseBrush(value));
         MarkDirty();
     }
+
+    private void HighlightBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (_suppressDirty || !IsEditableDocx || HighlightBox.SelectedItem is not ComboBoxItem item || item.Tag is not string value) return;
+        DocumentFormatting.ApplyTextHighlight(Editor, ParseBrush(value));
+        MarkDirty();
+    }
+
+    private void ParagraphFillBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (_suppressDirty || !IsEditableDocx || ParagraphFillBox.SelectedItem is not ComboBoxItem item || item.Tag is not string value) return;
+        DocumentFormatting.ApplyParagraphFill(Editor, ParseBrush(value));
+        MarkDirty();
+    }
+
+    private void CellFillBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (_suppressDirty || !IsEditableDocx || CellFillBox.SelectedItem is not ComboBoxItem item || item.Tag is not string value) return;
+        var context = TableEditor.GetContext(Editor.CaretPosition);
+        if (context is null) return;
+        TableEditor.SetCurrentCellFill(context, ParseBrush(value));
+        MarkDirty();
+    }
+
+    private void IndentIncrease_Click(object sender, RoutedEventArgs e) { if (IsEditableDocx) { DocumentFormatting.ChangeIndent(Editor, 24); MarkDirty(); } }
+    private void IndentDecrease_Click(object sender, RoutedEventArgs e) { if (IsEditableDocx) { DocumentFormatting.ChangeIndent(Editor, -24); MarkDirty(); } }
+    private void SpaceIncrease_Click(object sender, RoutedEventArgs e) { if (IsEditableDocx) { DocumentFormatting.ChangeSpaceAfter(Editor, 8); MarkDirty(); } }
+    private void SpaceDecrease_Click(object sender, RoutedEventArgs e) { if (IsEditableDocx) { DocumentFormatting.ChangeSpaceAfter(Editor, -8); MarkDirty(); } }
+
+    private void InsertTable_Click(object sender, RoutedEventArgs e)
+    {
+        if (!IsEditableDocx) return;
+        try
+        {
+            var table = TableEditor.InsertTable(Editor.Document, Editor.CaretPosition, 3, 3);
+            MarkDirty();
+            table.BringIntoView();
+            UpdateTableControls();
+        }
+        catch (Exception ex) { MessageBox.Show(this, ex.Message, "Table", MessageBoxButton.OK, MessageBoxImage.Information); }
+    }
+
+    private void AddTableRow_Click(object sender, RoutedEventArgs e)
+    {
+        var context = TableEditor.GetContext(Editor.CaretPosition); if (!IsEditableDocx || context is null) return;
+        TableEditor.AddRow(context); MarkDirty(); UpdateTableControls();
+    }
+
+    private void DeleteTableRow_Click(object sender, RoutedEventArgs e)
+    {
+        var context = TableEditor.GetContext(Editor.CaretPosition); if (!IsEditableDocx || context is null) return;
+        TableEditor.DeleteCurrentRow(context, Editor.Document); MarkDirty(); UpdateTableControls();
+    }
+
+    private void AddTableColumn_Click(object sender, RoutedEventArgs e)
+    {
+        var context = TableEditor.GetContext(Editor.CaretPosition); if (!IsEditableDocx || context is null) return;
+        TableEditor.AddColumn(context); MarkDirty(); UpdateTableControls();
+    }
+
+    private void DeleteTableColumn_Click(object sender, RoutedEventArgs e)
+    {
+        var context = TableEditor.GetContext(Editor.CaretPosition); if (!IsEditableDocx || context is null) return;
+        TableEditor.DeleteCurrentColumn(context, Editor.Document); MarkDirty(); UpdateTableControls();
+    }
+
+    private void FindNext_Click(object sender, RoutedEventArgs e) => FindNext();
+
+    private void FindBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter) { FindNext(); e.Handled = true; }
+    }
+
+    private void FindNext()
+    {
+        if (!IsDocxView || string.IsNullOrEmpty(FindBox.Text)) return;
+        var match = TextSearch.FindNext(Editor.Document, FindBox.Text, MatchCase(), Editor.Selection.End);
+        if (match is null)
+        {
+            StatusText.Text = "Text not found";
+            return;
+        }
+        Editor.Selection.Select(match.Start, match.End);
+        Editor.Focus();
+        StatusText.Text = "Match selected";
+    }
+
+    private void Replace_Click(object sender, RoutedEventArgs e)
+    {
+        if (!IsEditableDocx || string.IsNullOrEmpty(FindBox.Text)) return;
+        var comparison = MatchCase() ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;
+        if (string.Equals(Editor.Selection.Text, FindBox.Text, comparison))
+        {
+            Editor.Selection.Text = ReplaceBox.Text;
+            MarkDirty();
+        }
+        FindNext();
+    }
+
+    private void ReplaceAll_Click(object sender, RoutedEventArgs e)
+    {
+        if (!IsEditableDocx || string.IsNullOrEmpty(FindBox.Text)) return;
+        var count = TextSearch.ReplaceAll(Editor.Document, FindBox.Text, ReplaceBox.Text, MatchCase());
+        if (count > 0) MarkDirty();
+        StatusText.Text = $"Replaced {count} occurrence{(count == 1 ? string.Empty : "s")}";
+    }
+
+    private bool MatchCase() => false;
+
+    private static Brush ParseBrush(string value) =>
+        value.Equals("Transparent", StringComparison.OrdinalIgnoreCase)
+            ? Brushes.Transparent
+            : (Brush)new BrushConverter().ConvertFromString(value)!;
 
     private void MarkDirty()
     {
@@ -294,32 +414,56 @@ public partial class MainWindow : Window
     private void UpdateUi()
     {
         var editable = IsEditableDocx;
-        FormattingToolbar.IsEnabled = editable;
+        FontGroup.IsEnabled = editable;
+        ParagraphGroup.IsEnabled = editable;
+        TableInsertGroup.IsEnabled = editable;
         SaveMenuItem.IsEnabled = editable;
         SaveAsMenuItem.IsEnabled = editable;
+        QuickSaveButton.IsEnabled = editable;
+        UpdateTableControls();
         UpdatePdfControls();
         UpdateTitle();
     }
 
+    private void UpdateTableControls()
+    {
+        var inTable = IsEditableDocx && TableEditor.GetContext(Editor.CaretPosition) is not null;
+        TableAddRowButton.IsEnabled = inTable;
+        TableDeleteRowButton.IsEnabled = inTable;
+        TableAddColumnButton.IsEnabled = inTable;
+        TableDeleteColumnButton.IsEnabled = inTable;
+        CellFillBox.IsEnabled = inTable;
+    }
+
     private void UpdatePdfControls()
     {
-        if (_pdfSession is null)
+        var hasPdf = _pdfSession is not null;
+        if (!hasPdf)
         {
             PdfPageText.Text = string.Empty;
             PdfZoomText.Text = string.Empty;
-            return;
+        }
+        else
+        {
+            PdfPageText.Text = $"{_pdfPage + 1} / {_pdfSession!.PageCount}";
+            PdfZoomText.Text = $"{ZoomLevels[_zoomIndex] * 100:0}%";
         }
 
-        PdfPageText.Text = $"{_pdfPage + 1} / {_pdfSession.PageCount}";
-        PdfZoomText.Text = $"{ZoomLevels[_zoomIndex] * 100:0}%";
-        PrevButton.IsEnabled = !_pdfRendering && _pdfPage > 0;
-        NextButton.IsEnabled = !_pdfRendering && _pdfPage + 1 < _pdfSession.PageCount;
+        var canPrev = hasPdf && !_pdfRendering && _pdfPage > 0;
+        var canNext = hasPdf && !_pdfRendering && _pdfPage + 1 < _pdfSession!.PageCount;
+        PrevButton.IsEnabled = canPrev;
+        NextButton.IsEnabled = canNext;
+        RibbonPrevButton.IsEnabled = canPrev;
+        RibbonNextButton.IsEnabled = canNext;
+        RibbonZoomOutButton.IsEnabled = hasPdf && !_pdfRendering && _zoomIndex > 0;
+        RibbonZoomInButton.IsEnabled = hasPdf && !_pdfRendering && _zoomIndex + 1 < ZoomLevels.Length;
     }
 
     private void UpdateTitle()
     {
         var name = string.IsNullOrWhiteSpace(_currentPath) ? "Untitled" : Path.GetFileName(_currentPath);
         Title = $"{name}{(_dirty ? " *" : string.Empty)} — MiniDoc";
+        MainRibbon.Title = Title;
     }
 
     private void ShowNotice(string? message)
@@ -342,6 +486,8 @@ public partial class MainWindow : Window
         else if (e.Key == Key.O) { Open_Click(sender, e); e.Handled = true; }
         else if (e.Key == Key.S && (Keyboard.Modifiers & ModifierKeys.Shift) != 0) { SaveCurrent(true); e.Handled = true; }
         else if (e.Key == Key.S) { SaveCurrent(false); e.Handled = true; }
+        else if (e.Key == Key.F) { FindBox.Focus(); FindBox.SelectAll(); e.Handled = true; }
+        else if (e.Key == Key.H) { ReplaceBox.Focus(); ReplaceBox.SelectAll(); e.Handled = true; }
     }
 
     private void Window_Closing(object? sender, CancelEventArgs e)
