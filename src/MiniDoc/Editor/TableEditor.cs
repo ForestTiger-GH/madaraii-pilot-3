@@ -14,13 +14,10 @@ internal static class TableEditor
             throw new ArgumentOutOfRangeException(nameof(rows), "MiniDoc tables are limited to 1–50 rows and 1–20 columns per insertion.");
         if (caret.Paragraph?.Parent is TableCell)
             throw new InvalidOperationException("Nested tables are outside MiniDoc's editable subset.");
-
         var table = CreateTable(rows, columns);
         var anchor = caret.Paragraph;
-        if (anchor is not null && anchor.Parent == document)
-            document.Blocks.InsertAfter(anchor, table);
-        else
-            document.Blocks.Add(table);
+        if (anchor is not null && anchor.Parent == document) document.Blocks.InsertAfter(anchor, table);
+        else document.Blocks.Add(table);
         return table;
     }
 
@@ -45,29 +42,19 @@ internal static class TableEditor
 
     internal static void DeleteCurrentRow(TableContext context, FlowDocument document)
     {
-        if (context.Group.Rows.Count <= 1)
-        {
-            document.Blocks.Remove(context.Table);
-            return;
-        }
+        if (context.Group.Rows.Count <= 1) { document.Blocks.Remove(context.Table); return; }
         context.Group.Rows.Remove(context.Row);
     }
 
     internal static void AddColumn(TableContext context)
     {
-        foreach (var row in context.Group.Rows)
-            row.Cells.Add(CreateCell());
+        foreach (var row in context.Group.Rows) row.Cells.Add(CreateCell());
     }
 
     internal static void DeleteCurrentColumn(TableContext context, FlowDocument document)
     {
         var width = context.Row.Cells.Count;
-        if (width <= 1)
-        {
-            document.Blocks.Remove(context.Table);
-            return;
-        }
-
+        if (width <= 1) { document.Blocks.Remove(context.Table); return; }
         foreach (var row in context.Group.Rows)
         {
             var cells = row.Cells.Cast<TableCell>().ToList();
@@ -79,8 +66,8 @@ internal static class TableEditor
 
     internal static void SetCurrentCellFill(TableContext context, Brush brush)
     {
-        if (brush is not SolidColorBrush solid || solid.Color.A != 255)
-            throw new InvalidOperationException("Cell fill must be an opaque solid RGB colour.");
+        if (brush is not SolidColorBrush solid || (solid.Color.A != 0 && solid.Color.A != 255))
+            throw new InvalidOperationException("Cell fill must be transparent or an opaque solid RGB colour.");
         context.Cell.Background = brush;
     }
 
