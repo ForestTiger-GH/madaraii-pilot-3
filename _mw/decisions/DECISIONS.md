@@ -39,8 +39,10 @@ Commit first-release support to Windows 11 x64. Other Windows variants may work 
 
 ## D-0008 — Explicit process-exit containment
 
-**Status:** accepted pending runtime verification.  
-After the main window has definitively closed and resource disposal runs, call `Environment.Exit(0)`. This guards the “closed means closed” invariant against a documented historical WPF/Windows PDF process-lifecycle risk. The exact shipped configuration still requires Windows-local process verification.
+**Status:** accepted; runtime verification obligation fulfilled for the tested CI Windows configuration.  
+After the main window has definitively closed and resource disposal runs, call `Environment.Exit(0)`. This guards the “closed means closed” invariant against a documented historical WPF/Windows PDF process-lifecycle risk.
+
+`EV-0001` / `VERIFICATION-0001` establish that the installed exact candidate opened/rendered a PDF through the normal shell path, received normal main-window `Close()`, and terminated within the bounded verification window on Windows Server 2025 `10.0.26100`. Interactive Windows 11 local qualification remains a verification reliance limit under Q-0006, not a pending design Decision.
 
 ## D-0009 — Separate Product Architecture
 
