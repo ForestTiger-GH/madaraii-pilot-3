@@ -12,7 +12,14 @@ public partial class App : Application
         window.Show();
 
         if (e.Args.Length == 0) return;
-        var path = Path.GetFullPath(e.Args[0]);
-        if (File.Exists(path)) await window.OpenInitialPathAsync(path);
+
+        var verificationClose = e.Args.Length >= 2 &&
+            string.Equals(e.Args[0], "--verify-close-after-open", StringComparison.Ordinal);
+        var rawPath = verificationClose ? e.Args[1] : e.Args[0];
+        var path = Path.GetFullPath(rawPath);
+        if (!File.Exists(path)) return;
+
+        await window.OpenInitialPathAsync(path);
+        if (verificationClose) window.Close();
     }
 }
