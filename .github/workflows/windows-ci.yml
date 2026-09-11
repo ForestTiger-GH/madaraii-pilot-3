@@ -17,10 +17,6 @@ on:
       - 'scripts/**'
       - '.github/workflows/windows-ci.yml'
 
-concurrency:
-  group: windows-ci-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   build-verify-lifecycle:
     runs-on: windows-latest
