@@ -38,9 +38,9 @@ internal static class Program
         paragraph.Inlines.Add(new Run("World"));
         document.Blocks.Add(paragraph);
 
-        var matches = TextSearch.FindAll(document, "hello world", caseSensitive: false);
+        var matches = MiniDoc.Editor.TextSearch.FindAll(document, "hello world", caseSensitive: false);
         Require(matches.Count == 1, "Search must find text spanning adjacent runs in one paragraph.");
-        var replaced = TextSearch.ReplaceAll(document, "WORLD", "MiniDoc", caseSensitive: false);
+        var replaced = MiniDoc.Editor.TextSearch.ReplaceAll(document, "WORLD", "MiniDoc", caseSensitive: false);
         Require(replaced == 1, "ReplaceAll must replace the expected match.");
         Require(new TextRange(paragraph.ContentStart, paragraph.ContentEnd).Text.Contains("Hello MiniDoc", StringComparison.Ordinal),
             "ReplaceAll must preserve surrounding paragraph text.");
@@ -99,7 +99,7 @@ internal static class Program
 
     private static async Task CheckPdfRendering()
     {
-        var root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", ".."));
+        var root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", ".."));
         var path = Path.Combine(root, "tests", "fixtures", "sample.pdf");
         Require(File.Exists(path), $"PDF fixture missing at {path}");
         using var session = await PdfSession.OpenAsync(path);
