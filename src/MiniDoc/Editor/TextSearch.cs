@@ -87,33 +87,33 @@ internal static class TextSearch
 
         while (cursor.CompareTo(paragraph.ContentEnd) < 0)
         {
-            var context = cursor.GetPointerContext(System.Windows.LogicalDirection.Forward);
+            var context = cursor.GetPointerContext(LogicalDirection.Forward);
             if (context == TextPointerContext.Text)
             {
-                var runText = cursor.GetTextInRun(System.Windows.LogicalDirection.Forward);
+                var runText = cursor.GetTextInRun(LogicalDirection.Forward);
                 for (var i = 0; i < runText.Length; i++)
                 {
-                    var start = cursor.GetPositionAtOffset(i, System.Windows.LogicalDirection.Forward);
-                    var end = cursor.GetPositionAtOffset(i + 1, System.Windows.LogicalDirection.Forward);
+                    var start = cursor.GetPositionAtOffset(i, LogicalDirection.Forward);
+                    var end = cursor.GetPositionAtOffset(i + 1, LogicalDirection.Forward);
                     if (start is null || end is null) break;
                     text.Append(runText[i]);
                     starts.Add(start);
                     ends.Add(end);
                 }
-                cursor = cursor.GetPositionAtOffset(runText.Length, System.Windows.LogicalDirection.Forward)
-                         ?? cursor.GetNextContextPosition(System.Windows.LogicalDirection.Forward)
+                cursor = cursor.GetPositionAtOffset(runText.Length, LogicalDirection.Forward)
+                         ?? cursor.GetNextContextPosition(LogicalDirection.Forward)
                          ?? paragraph.ContentEnd;
                 continue;
             }
 
             if (context == TextPointerContext.ElementStart &&
-                cursor.GetAdjacentElement(System.Windows.LogicalDirection.Forward) is LineBreak)
+                cursor.GetAdjacentElement(LogicalDirection.Forward) is LineBreak)
             {
                 var segment = Flush();
                 if (segment is not null) yield return segment;
             }
 
-            cursor = cursor.GetNextContextPosition(System.Windows.LogicalDirection.Forward) ?? paragraph.ContentEnd;
+            cursor = cursor.GetNextContextPosition(LogicalDirection.Forward) ?? paragraph.ContentEnd;
         }
 
         var last = Flush();
