@@ -58,7 +58,7 @@
                     <StackPanel Orientation="Horizontal" Margin="2">
                         <ribbon:RibbonToggleButton Label="Bold" FontWeight="Bold" Command="EditingCommands.ToggleBold" CommandTarget="{Binding ElementName=Editor}" />
                         <ribbon:RibbonToggleButton Label="Italic" FontStyle="Italic" Command="EditingCommands.ToggleItalic" CommandTarget="{Binding ElementName=Editor}" />
-                        <ribbon:RibbonToggleButton Label="Underline" TextBlock.TextDecorations="Underline" Command="EditingCommands.ToggleUnderline" CommandTarget="{Binding ElementName=Editor}" />
+                        <ribbon:RibbonToggleButton Label="Underline" Command="EditingCommands.ToggleUnderline" CommandTarget="{Binding ElementName=Editor}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="2">
                         <TextBlock Text="Color" VerticalAlignment="Center" Margin="2,0" />
