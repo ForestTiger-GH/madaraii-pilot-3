@@ -3,14 +3,26 @@ name: Windows CI
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'install/**'
+      - 'scripts/**'
+      - '.github/workflows/windows-ci.yml'
   pull_request:
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'install/**'
+      - 'scripts/**'
+      - '.github/workflows/windows-ci.yml'
 
 concurrency:
   group: windows-ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-verify-lifecycle:
     runs-on: windows-latest
     steps:
       - name: Checkout
@@ -19,18 +31,23 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
-      - name: Build product and checks
+      - name: Build, semantic checks, publish, package
         shell: pwsh
-        run: dotnet build tests/MiniDoc.Checks/MiniDoc.Checks.csproj -c Release --nologo
-      - name: Run semantic checks
-        shell: pwsh
-        run: dotnet run --project tests/MiniDoc.Checks/MiniDoc.Checks.csproj -c Release --no-build
-      - name: Publish self-contained
-        shell: pwsh
-        run: dotnet publish src/MiniDoc/MiniDoc.csproj -c Release -r win-x64 --self-contained true --nologo -o artifacts/publish
-      - name: Check product references
+        run: ./scripts/build.ps1 -Clean
+      - name: Check product dependency boundary
         shell: pwsh
         run: |
           $project = Get-Content src/MiniDoc/MiniDoc.csproj -Raw
           if ($project -match '<PackageReference') { throw 'Product PackageReference is prohibited.' }
           if (-not (Test-Path artifacts/publish/MiniDoc.exe)) { throw 'MiniDoc.exe was not published.' }
+          dotnet list src/MiniDoc/MiniDoc.csproj package --include-transitive
+      - name: Verify install, PDF normal-close process exit, and uninstall residue
+        shell: pwsh
+        run: ./scripts/verify-windows.ps1
+      - name: Upload install package
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: MiniDoc-0.1.0-win-x64
+          path: artifacts/MiniDoc-0.1.0
+          if-no-files-found: error
