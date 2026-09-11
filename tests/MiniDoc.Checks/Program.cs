@@ -1,5 +1,6 @@
 using MiniDoc.Docx;
 using MiniDoc.Editor;
+using MiniDoc.Pdf;
 using System.IO.Compression;
 using System.Text;
 using System.Windows;
@@ -17,6 +18,7 @@ internal static class Program
             CheckSearchAcrossRuns();
             CheckEditableTableRoundTrip();
             CheckUnsupportedDrawingFailsClosed();
+            CheckPdfRendering().GetAwaiter().GetResult();
             Console.WriteLine("MiniDoc.Checks: PASS");
             return 0;
         }
@@ -93,6 +95,17 @@ internal static class Program
         var result = DocxCodec.LoadBytes(mutated);
         Require(!result.IsEditable && result.Session is null, "Unsupported drawing must never gain editable/save authority.");
         Require(result.Message.Contains("read-only", StringComparison.OrdinalIgnoreCase), "Unsupported drawing must report compatibility mode.");
+    }
+
+    private static async Task CheckPdfRendering()
+    {
+        var root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", ".."));
+        var path = Path.Combine(root, "tests", "fixtures", "sample.pdf");
+        Require(File.Exists(path), $"PDF fixture missing at {path}");
+        using var session = await PdfSession.OpenAsync(path);
+        Require(session.PageCount == 1, "PDF fixture must have exactly one page.");
+        var image = await session.RenderPageAsync(0, 1.0);
+        Require(image.PixelWidth > 0 && image.PixelHeight > 0, "Windows.Data.Pdf must render a non-empty bitmap.");
     }
 
     private static byte[] ReplaceMain(byte[] original, XDocument main)
