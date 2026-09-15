@@ -23,7 +23,7 @@ public partial class App : Application
             return;
         }
 
-        var opened = await window.OpenInitialPathAsync(path);
+        var opened = await window.OpenInitialPathAsync(path, showErrors: !verificationClose);
         if (!verificationClose) return;
         if (!opened) Environment.Exit(2);
         window.Close();
