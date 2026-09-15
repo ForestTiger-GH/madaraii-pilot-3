@@ -18,6 +18,7 @@ public partial class MainWindow : RibbonWindow
 {
     private enum DocumentMode { None, EditableDocx, ReadOnlyDocx, Pdf }
 
+    private readonly OpenTransitionGuard _openTransitions = new();
     private DocumentMode _mode;
     private DocxSession? _docxSession;
     private PdfSession? _pdfSession;
@@ -49,11 +50,13 @@ public partial class MainWindow : RibbonWindow
 
     private void New_Click(object sender, RoutedEventArgs e)
     {
-        if (ResolveUnsavedChanges()) StartNewDocument();
+        _openTransitions.SupersedeOpen();
+        if (ResolveUnsavedChanges()) StartNewDocument(supersedePendingOpen: false);
     }
 
     private async void Open_Click(object sender, RoutedEventArgs e)
     {
+        var intent = _openTransitions.BeginOpenIntent();
         if (!ResolveUnsavedChanges()) return;
         var dialog = new OpenFileDialog
         {
@@ -62,15 +65,18 @@ public partial class MainWindow : RibbonWindow
             Multiselect = false,
             CheckFileExists = true
         };
-        if (dialog.ShowDialog(this) == true) await OpenPathAsync(dialog.FileName);
+        if (dialog.ShowDialog(this) != true) return;
+        var ticket = _openTransitions.Capture(intent);
+        await OpenPathAsync(dialog.FileName, ticket);
     }
 
     private void Save_Click(object sender, RoutedEventArgs e) => SaveCurrent(false);
     private void SaveAs_Click(object sender, RoutedEventArgs e) => SaveCurrent(true);
     private void Exit_Click(object sender, RoutedEventArgs e) => Close();
 
-    private void StartNewDocument()
+    private void StartNewDocument(bool supersedePendingOpen = true)
     {
+        if (supersedePendingOpen) _openTransitions.SupersedeOpen();
         ReleasePdf();
         var opened = DocxCodec.CreateNew();
         _docxSession = opened.Session;
@@ -84,7 +90,7 @@ public partial class MainWindow : RibbonWindow
         Editor.Focus();
     }
 
-    private async Task OpenPathAsync(string path)
+    private async Task<bool> OpenPathAsync(string path, OpenTransitionTicket ticket)
     {
         try
         {
@@ -92,6 +98,7 @@ public partial class MainWindow : RibbonWindow
             if (extension.Equals(".docx", StringComparison.OrdinalIgnoreCase))
             {
                 var opened = DocxCodec.Open(path);
+                if (!CanAdmitOpen(ticket)) return false;
                 ReleasePdf();
                 _docxSession = opened.Session;
                 _currentPath = path;
@@ -101,22 +108,36 @@ public partial class MainWindow : RibbonWindow
                 ShowNotice(opened.IsEditable ? null : opened.Message);
                 StatusText.Text = opened.IsEditable ? "Editable DOCX" : "DOCX compatibility view (read-only)";
                 UpdateUi();
-                return;
+                return true;
             }
 
             if (extension.Equals(".pdf", StringComparison.OrdinalIgnoreCase))
-            {
-                await OpenPdfAsync(path);
-                return;
-            }
+                return await OpenPdfAsync(path, ticket);
 
-            MessageBox.Show(this, "MiniDoc supports .docx and .pdf files.", "Unsupported file", MessageBoxButton.OK, MessageBoxImage.Information);
+            if (_openTransitions.IsCurrent(ticket))
+                MessageBox.Show(this, "MiniDoc supports .docx and .pdf files.", "Unsupported file", MessageBoxButton.OK, MessageBoxImage.Information);
+            return false;
         }
         catch (Exception ex)
         {
+            if (!_openTransitions.IsCurrentIntent(ticket.Intent)) return false;
+            if (!_openTransitions.IsCurrent(ticket))
+            {
+                StatusText.Text = "Open cancelled because the current document changed";
+                return false;
+            }
             MessageBox.Show(this, ex.Message, "Open failed", MessageBoxButton.OK, MessageBoxImage.Error);
             StatusText.Text = "Open failed";
+            return false;
         }
+    }
+
+    private bool CanAdmitOpen(OpenTransitionTicket ticket)
+    {
+        if (!_openTransitions.IsCurrentIntent(ticket.Intent)) return false;
+        if (_openTransitions.IsCurrent(ticket)) return true;
+        StatusText.Text = "Open cancelled because the current document changed";
+        return false;
     }
 
     private void SetEditorDocument(FlowDocument document, bool readOnly)
@@ -129,9 +150,15 @@ public partial class MainWindow : RibbonWindow
         _suppressDirty = false;
     }
 
-    private async Task OpenPdfAsync(string path)
+    private async Task<bool> OpenPdfAsync(string path, OpenTransitionTicket ticket)
     {
         var candidate = await PdfSession.OpenAsync(path);
+        if (!CanAdmitOpen(ticket))
+        {
+            candidate.Dispose();
+            return false;
+        }
+
         ReleasePdf();
         _docxSession = null;
         _currentPath = path;
@@ -144,13 +171,13 @@ public partial class MainWindow : RibbonWindow
         PdfHost.Visibility = Visibility.Visible;
         ShowNotice(null);
         UpdateUi();
-        await RenderPdfAsync();
+        return await RenderPdfAsync();
     }
 
-    private async Task RenderPdfAsync()
+    private async Task<bool> RenderPdfAsync()
     {
         var session = _pdfSession;
-        if (session is null) return;
+        if (session is null) return false;
 
         var page = _pdfPage;
         var zoomIndex = _zoomIndex;
@@ -161,15 +188,17 @@ public partial class MainWindow : RibbonWindow
         {
             StatusText.Text = "Rendering PDF page...";
             var image = await session.RenderPageAsync(page, ZoomLevels[zoomIndex]);
-            if (!IsCurrentPdfRender(request, session, page, zoomIndex)) return;
+            if (!IsCurrentPdfRender(request, session, page, zoomIndex)) return false;
             PdfImage.Source = image;
             StatusText.Text = "PDF view (read-only)";
+            return true;
         }
         catch (Exception ex)
         {
-            if (!IsCurrentPdfRender(request, session, page, zoomIndex)) return;
+            if (!IsCurrentPdfRender(request, session, page, zoomIndex)) return false;
             StatusText.Text = "PDF render failed";
             MessageBox.Show(this, ex.Message, "PDF render failed", MessageBoxButton.OK, MessageBoxImage.Error);
+            return false;
         }
         finally
         {
@@ -428,6 +457,7 @@ public partial class MainWindow : RibbonWindow
 
     private void MarkDirty()
     {
+        _openTransitions.ContentChanged();
         _dirty = true;
         UpdateTitle();
     }
