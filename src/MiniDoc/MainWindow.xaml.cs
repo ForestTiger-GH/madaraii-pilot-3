@@ -90,7 +90,7 @@ public partial class MainWindow : RibbonWindow
         Editor.Focus();
     }
 
-    private async Task<bool> OpenPathAsync(string path, OpenTransitionTicket ticket)
+    private async Task<bool> OpenPathAsync(string path, OpenTransitionTicket ticket, bool showErrors = true)
     {
         try
         {
@@ -112,10 +112,14 @@ public partial class MainWindow : RibbonWindow
             }
 
             if (extension.Equals(".pdf", StringComparison.OrdinalIgnoreCase))
-                return await OpenPdfAsync(path, ticket);
+                return await OpenPdfAsync(path, ticket, showErrors);
 
             if (_openTransitions.IsCurrent(ticket))
-                MessageBox.Show(this, "MiniDoc supports .docx and .pdf files.", "Unsupported file", MessageBoxButton.OK, MessageBoxImage.Information);
+            {
+                StatusText.Text = "Unsupported file";
+                if (showErrors)
+                    MessageBox.Show(this, "MiniDoc supports .docx and .pdf files.", "Unsupported file", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
             return false;
         }
         catch (Exception ex)
@@ -126,8 +130,9 @@ public partial class MainWindow : RibbonWindow
                 StatusText.Text = "Open cancelled because the current document changed";
                 return false;
             }
-            MessageBox.Show(this, ex.Message, "Open failed", MessageBoxButton.OK, MessageBoxImage.Error);
             StatusText.Text = "Open failed";
+            if (showErrors)
+                MessageBox.Show(this, ex.Message, "Open failed", MessageBoxButton.OK, MessageBoxImage.Error);
             return false;
         }
     }
@@ -150,7 +155,7 @@ public partial class MainWindow : RibbonWindow
         _suppressDirty = false;
     }
 
-    private async Task<bool> OpenPdfAsync(string path, OpenTransitionTicket ticket)
+    private async Task<bool> OpenPdfAsync(string path, OpenTransitionTicket ticket, bool showErrors)
     {
         var candidate = await PdfSession.OpenAsync(path);
         if (!CanAdmitOpen(ticket))
@@ -171,10 +176,10 @@ public partial class MainWindow : RibbonWindow
         PdfHost.Visibility = Visibility.Visible;
         ShowNotice(null);
         UpdateUi();
-        return await RenderPdfAsync();
+        return await RenderPdfAsync(showErrors);
     }
 
-    private async Task<bool> RenderPdfAsync()
+    private async Task<bool> RenderPdfAsync(bool showErrors = true)
     {
         var session = _pdfSession;
         if (session is null) return false;
@@ -197,7 +202,8 @@ public partial class MainWindow : RibbonWindow
         {
             if (!IsCurrentPdfRender(request, session, page, zoomIndex)) return false;
             StatusText.Text = "PDF render failed";
-            MessageBox.Show(this, ex.Message, "PDF render failed", MessageBoxButton.OK, MessageBoxImage.Error);
+            if (showErrors)
+                MessageBox.Show(this, ex.Message, "PDF render failed", MessageBoxButton.OK, MessageBoxImage.Error);
             return false;
         }
         finally
