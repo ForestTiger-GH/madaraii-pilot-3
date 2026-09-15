@@ -32,7 +32,7 @@ Material structures outside that model block edited saving. This includes, among
 - Strict OOXML and signed packages;
 - encrypted/non-ZIP containers.
 
-A compatibility view can extract text and, where a directly usable preview/image already exists in the package, surface that preview. MiniDoc never represents such a preview as equivalent to the editable source object.
+The MiniDoc 0.1 compatibility view extracts safely available main-story text and inserts explicit labels/placeholders for unsupported graphics, notes references, fields and related semantics. It does not dereference package media or notes parts to render object previews or appended note bodies. Those source structures remain read-only and are never represented as equivalent editable content.
 
 ## PDF boundary
 
