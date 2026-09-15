@@ -7,6 +7,7 @@
 **Final Target HOW:** `TARGET-HOW-0001` revision 5  
 **Final Product Architecture:** `PA-0001 revision 3`  
 **Closure:** `CLOSURE-E001-01 = PASS`  
+**Finalization:** `FINALIZATION-E001-01`  
 **Sealed Report:** `EDR-E001@1` → `development-reports/epoch-001-jester-finalization.md`  
 **Governing MADARAII:** `721a199352b5c5282b1478cd6a5eb36a9872fb34`
 
@@ -21,6 +22,7 @@
 - Scientific Knowledge remained current and unchanged during EPOCH-001.
 - `SUMMARY-E001-01/02` are complete derived views.
 - The MADARAII-35 candidate was audited without substantive defect by `CLOSURE-E001-01`; canonical sealed publication is `EDR-E001@1` outside the epoch Work Plane.
+- `FINALIZATION-E001-01` owns the finalization/archive-readiness result and delayed physical-archive constraints.
 - No substantive Product, Knowledge, Decision, Architecture, Question or Evidence transition remains routed but unfinished.
 
 ## Final effects
@@ -50,4 +52,4 @@ Archive-readiness is established; **physical archival has not occurred**.
 
 There is no active Development Epoch and no successor Work commissioned by EPOCH-001 finalization. A new global outcome, new Jester cycle or other substantive development objective must start a new Development Epoch.
 
-Cold current-state entry after finalization is `_mw/AGENTS.md` → current Product/Knowledge owners. Historical epoch reconstruction uses this finalized Work State, `CLOSURE-AUDIT-E001-01`, the finalization Result and the sealed Development Report publication.
+Cold current-state entry after finalization is `_mw/AGENTS.md` → current Product/Knowledge owners. Historical epoch reconstruction uses this finalized Work State, `CLOSURE-AUDIT-E001-01`, `FINALIZATION-E001-01`, and the sealed Development Report publication.
