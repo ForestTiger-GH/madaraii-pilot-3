@@ -17,13 +17,14 @@
 - Target WHAT revision 3 and Target HOW revision 5 are current.
 - `RECON-E001-0009` reconciled stale compatibility clauses in the Decision owner; accepted `D-0015` owns marker/text-only compatibility presentation for current 0.1 while superseded clauses remain historical.
 - `ARCHITECTURE-E001-01` reconciled Product Architecture to `PA-0001 revision 3`, aligned to WHAT rev.3 / HOW rev.5 / Product `1df3...`; no Product code/configuration changed.
-- No substantive Product, Knowledge, Decision or Product-Architecture transition remains routed but unfinished.
+- `RECON-E001-0010` refreshed resolved Question evidence routes to the current Target/Product verification lineage without reopening any Question; Q-0006/Q-0007 remain bounded reliance limits.
+- No substantive Product, Knowledge, Decision, Product-Architecture or Question transition remains routed but unfinished.
 
 ## Reporting state
 
 - `SUMMARY-E001-01` established for the first Jester repair block.
 - `SUMMARY-E001-02` established for the second Jester repair block.
-- `_mw/epochs/001-jester-finalization/DEVELOPMENT-REPORT.md` is the refreshed MADARAII-35 Report candidate. It includes Decision and Product-Architecture reconciliation, uses a repository-relative source manifest, is **unsealed**, and does not establish closure.
+- `_mw/epochs/001-jester-finalization/DEVELOPMENT-REPORT.md` is the refreshed MADARAII-35 Report candidate. It includes Decision, Product-Architecture and Question-currentness reconciliation, uses a repository-relative source manifest, is **unsealed**, and does not establish closure.
 
 ## Current posture
 
@@ -31,14 +32,14 @@ Current Product semantics are owned by `PRODUCT-0001` at exact source/configurat
 
 No Product repair, Research, release, deployment, workstation installation, network effect, user-document effect, persistent runtime state, or new feature work remains commissioned inside this epoch. No external effect is `UNKNOWN`.
 
-Questions `Q-0006/Q-0007` remain explicit bounded reliance limits with reopen triggers, not hidden successor Work. The absence of a probabilistic live WPF timing-stress harness is an explicit verification limitation, not an unowned Work item.
+The absence of a probabilistic live WPF timing-stress harness is an explicit verification limitation, not an unowned Work item.
 
 ## Next authorized work
 
-Run MADARAII-36 against this exact substantive state and refreshed unsealed Development Report candidate. The audit must independently check terminal accounting, Product/Target/Architecture/Decision owner consistency, both Jester continuations, exact verification/admission identity, evidence accessibility, effects, residue, report traceability and finalization/archive-readiness preconditions.
+Run MADARAII-36 against this exact substantive state and refreshed unsealed Development Report candidate. The audit must independently check terminal accounting, Product/Target/Architecture/Decision/Question owner consistency, both Jester continuations, exact verification/admission identity, evidence accessibility, effects, residue, report traceability and finalization/archive-readiness preconditions.
 
 Only an accepted `PASS` may route MADARAII-37 finalization. Audit Work may not repair its own findings.
 
 ## Recovery route
 
-Open `_mw/AGENTS.md`, current `FOUNDATION`, MADARAII-36 and EXAMPLE-36; resolve developed Commission, `EPOCH.md`, current Product, Target WHAT/HOW, `docs/ARCHITECTURE.md`, Scientific Knowledge, Decisions, Questions, Evidence index, both Jester Reports and developed continuations, both summaries, `RECON-E001-0008/0009`, `ARCHITECTURE-E001-01`, both integration Results, and the refreshed Development Report candidate. Expand into deeper Work history only for a named audit claim or discrepancy.
+Open `_mw/AGENTS.md`, current `FOUNDATION`, MADARAII-36 and EXAMPLE-36; resolve developed Commission, `EPOCH.md`, current Product, Target WHAT/HOW, `docs/ARCHITECTURE.md`, Scientific Knowledge, Decisions, Questions, Evidence index, both Jester Reports and developed continuations, both summaries, `RECON-E001-0008/0009/0010`, `ARCHITECTURE-E001-01`, both integration Results, and the refreshed Development Report candidate. Expand into deeper Work history only for a named audit claim or discrepancy.
