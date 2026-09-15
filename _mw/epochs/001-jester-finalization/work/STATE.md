@@ -1,45 +1,53 @@
 # Work State — EPOCH-001
 
 **State identity:** `WORKSTATE-E001`  
-**Status:** ACTIVE — exact closure-audit candidate  
-**Current Product Baseline:** `1df3b56528ac04b4f0d0a043593365b575007b93`  
-**Current Target WHAT:** `TARGET-WHAT-0001` revision 3  
-**Current Target HOW:** `TARGET-HOW-0001` revision 5  
-**Current Product Architecture:** `PA-0001 revision 3`  
+**Status:** FINALIZED / ARCHIVE_READY — no active substantive Work  
+**Final Product Baseline:** `1df3b56528ac04b4f0d0a043593365b575007b93`  
+**Final Target WHAT:** `TARGET-WHAT-0001` revision 3  
+**Final Target HOW:** `TARGET-HOW-0001` revision 5  
+**Final Product Architecture:** `PA-0001 revision 3`  
+**Closure:** `CLOSURE-E001-01 = PASS`  
+**Sealed Report:** `EDR-E001@1` → `development-reports/epoch-001-jester-finalization.md`  
 **Governing MADARAII:** `721a199352b5c5282b1478cd6a5eb36a9872fb34`
 
-## Established substantive state
+## Final established state
 
-- Legacy `WORK-0001` remains closed with `CLOSURE-0001 = PASS`.
-- Both Jester Observation sessions and both mandatory non-Jester continuations are complete and non-orphaned.
-- First repair `b2caf... → 4a7c...` is historical and fully accounted through implementation, verification, evidence and integration.
-- Second repair `4a7c... → 1df3...` is fully accounted; `VERIFICATION-E001-02 = CONFORMS`, `EV-E001-02` binds successful Windows CI run `34976593344`, and `INTEGRATION-E001-02` admits exact `1df3...` as current Product.
-- Target WHAT revision 3 and Target HOW revision 5 are current.
-- `RECON-E001-0009` reconciled stale compatibility clauses in the Decision owner; accepted `D-0015` owns marker/text-only compatibility presentation for current 0.1 while superseded clauses remain historical.
-- `ARCHITECTURE-E001-01` reconciled Product Architecture to `PA-0001 revision 3`, aligned to WHAT rev.3 / HOW rev.5 / Product `1df3...`; no Product code/configuration changed.
-- `RECON-E001-0010` refreshed resolved Question evidence routes to the current Target/Product verification lineage without reopening any Question; Q-0006/Q-0007 remain bounded reliance limits.
-- No substantive Product, Knowledge, Decision, Product-Architecture or Question transition remains routed but unfinished.
+- Legacy `WORK-0001` remains historically closed with `CLOSURE-0001 = PASS`.
+- Both Jester Observation sessions are complete, retain standalone Reports, and have complete mandatory non-Jester continuations.
+- First repair `b2caf... → 4a7c...` is historical and fully accounted.
+- Second repair `4a7c... → 1df3...` is fully accounted; exact final Product `1df3...` is admitted and remains current.
+- `VERIFICATION-E001-02 = CONFORMS`; `EV-E001-02` binds successful Windows CI run `34976593344` on exact `1df3...`.
+- Target WHAT revision 3, Target HOW revision 5, Product Architecture revision 3, Decisions through D-0015 and current Question evidence routes are mutually reconciled.
+- Scientific Knowledge remained current and unchanged during EPOCH-001.
+- `SUMMARY-E001-01/02` are complete derived views.
+- The MADARAII-35 candidate was audited without substantive defect by `CLOSURE-E001-01`; canonical sealed publication is `EDR-E001@1` outside the epoch Work Plane.
+- No substantive Product, Knowledge, Decision, Architecture, Question or Evidence transition remains routed but unfinished.
 
-## Reporting state
+## Final effects
 
-- `SUMMARY-E001-01` established for the first Jester repair block.
-- `SUMMARY-E001-02` established for the second Jester repair block.
-- `_mw/epochs/001-jester-finalization/DEVELOPMENT-REPORT.md` is the refreshed MADARAII-35 Report candidate. It includes Decision, Product-Architecture and Question-currentness reconciliation, uses a repository-relative source manifest, is **unsealed**, and does not establish closure.
+Finalization changed only publication/finalization/status projections. It performed no Product source/configuration mutation and no new Product verification was required.
 
-## Current posture
+No release, deployment, workstation installation, external-system/network action, user-document mutation, persistent MiniDoc runtime state or irreversible external effect occurred. No external effect is `UNKNOWN`.
 
-Current Product semantics are owned by `PRODUCT-0001` at exact source/configuration revision `1df3b56528ac04b4f0d0a043593365b575007b93`. Later Work Plane, owner-document and reporting commits do not redefine that Product configuration.
+## Residue
 
-No Product repair, Research, release, deployment, workstation installation, network effect, user-document effect, persistent runtime state, or new feature work remains commissioned inside this epoch. No external effect is `UNKNOWN`.
+Terminal, owned reliance limits remain:
 
-The absence of a probabilistic live WPF timing-stress harness is an explicit verification limitation, not an unowned Work item.
+- Q-0006 interactive Windows 11 visual qualification;
+- Q-0007 broad real-document compatibility;
+- no probabilistic live WPF timing-stress harness for Open-race behavior;
+- Jester-2 memory-cost observation retained as no-action absent an activated resource requirement.
 
-## Next authorized work
+These are not active Tasks and do not keep the epoch open.
 
-Run MADARAII-36 against this exact substantive state and refreshed unsealed Development Report candidate. The audit must independently check terminal accounting, Product/Target/Architecture/Decision/Question owner consistency, both Jester continuations, exact verification/admission identity, evidence accessibility, effects, residue, report traceability and finalization/archive-readiness preconditions.
+## Archive-ready state
 
-Only an accepted `PASS` may route MADARAII-37 finalization. Audit Work may not repair its own findings.
+The complete epoch directory may be archived later only under separate archival Authority. A later archive operation must preserve both Jester Reports, their continuations, audit/finalization evidence, raw/developed Commission and material Work history. It must not move/delete current Product/Knowledge/Decision/Question/Evidence owners merely because the epoch history is archived.
 
-## Recovery route
+Archive-readiness is established; **physical archival has not occurred**.
 
-Open `_mw/AGENTS.md`, current `FOUNDATION`, MADARAII-36 and EXAMPLE-36; resolve developed Commission, `EPOCH.md`, current Product, Target WHAT/HOW, `docs/ARCHITECTURE.md`, Scientific Knowledge, Decisions, Questions, Evidence index, both Jester Reports and developed continuations, both summaries, `RECON-E001-0008/0009/0010`, `ARCHITECTURE-E001-01`, both integration Results, and the refreshed Development Report candidate. Expand into deeper Work history only for a named audit claim or discrepancy.
+## Post-epoch posture
+
+There is no active Development Epoch and no successor Work commissioned by EPOCH-001 finalization. A new global outcome, new Jester cycle or other substantive development objective must start a new Development Epoch.
+
+Cold current-state entry after finalization is `_mw/AGENTS.md` → current Product/Knowledge owners. Historical epoch reconstruction uses this finalized Work State, `CLOSURE-AUDIT-E001-01`, the finalization Result and the sealed Development Report publication.
