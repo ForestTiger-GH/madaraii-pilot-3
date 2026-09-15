@@ -15,6 +15,7 @@ internal static class Program
     {
         try
         {
+            CheckOpenTransitionGuard();
             CheckSearchAcrossRuns();
             CheckEditableTableRoundTrip();
             CheckTableColumnMetadataTracksEdits();
@@ -29,6 +30,33 @@ internal static class Program
             Console.Error.WriteLine(ex);
             return 1;
         }
+    }
+
+    private static void CheckOpenTransitionGuard()
+    {
+        var guard = new OpenTransitionGuard();
+
+        var firstIntent = guard.BeginOpenIntent();
+        var first = guard.Capture(firstIntent);
+        Require(guard.IsCurrent(first), "A newly captured Open ticket must be current.");
+
+        var secondIntent = guard.BeginOpenIntent();
+        var second = guard.Capture(secondIntent);
+        Require(!guard.IsCurrentIntent(first.Intent) && !guard.IsCurrent(first),
+            "A later Open intent must supersede an earlier unresolved Open ticket.");
+        Require(guard.IsCurrent(second), "The latest untouched Open ticket must remain admissible.");
+
+        guard.ContentChanged();
+        Require(guard.IsCurrentIntent(second.Intent), "A content edit must not invent a different Open intent.");
+        Require(!guard.IsCurrent(second),
+            "A content edit after ticket capture must invalidate the earlier replacement authorization.");
+
+        var thirdIntent = guard.BeginOpenIntent();
+        var third = guard.Capture(thirdIntent);
+        Require(guard.IsCurrent(third), "A fresh Open ticket after editing must capture the new content generation.");
+        guard.SupersedeOpen();
+        Require(!guard.IsCurrentIntent(third.Intent) && !guard.IsCurrent(third),
+            "A New/other superseding transition must invalidate an unresolved Open ticket.");
     }
 
     private static void CheckSearchAcrossRuns()
