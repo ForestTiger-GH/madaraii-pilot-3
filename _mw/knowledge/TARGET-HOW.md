@@ -1,4 +1,4 @@
-# TARGET-HOW-0001 — MiniDoc 0.1 mechanism set, revision 3
+# TARGET-HOW-0001 — MiniDoc 0.1 mechanism set, revision 4
 
 **Status:** accepted current design baseline for `TARGET-WHAT-0001` revision 2  
 **Environment:** Windows 11 x64, .NET 10 Windows Desktop, Windows Runtime APIs  
@@ -6,7 +6,7 @@
 
 This owner is operationally sufficient without reading the Scientific Knowledge corpus.
 
-Revision 3 reconciles two bounded mechanism claims exposed by `JR-E001-01`: current compatibility mode is a safe text/marker fallback rather than a relationship-backed media/notes preview engine, and current UI search is case-insensitive without a case-sensitive toggle. Target WHAT is unchanged.
+Revision 4 retains revision-3 compatibility/search corrections and reconciles the verified post-Jester Product mechanisms admitted in `EPOCH-001`: replacement-document admission is candidate-first, PDF presentation is fenced against stale asynchronous completion, simple-table column descriptors remain coherent with row-cell width, and direct-save recovery reports target integrity as unknown when both write and recovery fail. Target WHAT is unchanged.
 
 ## Realization
 
@@ -29,6 +29,8 @@ The Ribbon is deliberately bounded:
 Ribbon customization is session-local only. No preference is written to disk.
 
 One document session is active at a time. Mode is `NewDocx`, `EditableDocx`, `ReadOnlyDocx`, or `Pdf`. The shell owns unsaved-change prompting, command availability, status messaging and transitions.
+
+A replacement open uses candidate-first admission: the selected DOCX is fully parsed/classified, or the selected PDF obtains a valid `PdfSession`, before the current PDF/session state is released and the new document becomes authoritative UI state. A failed candidate open therefore reports failure without dismantling the previously active session.
 
 Paste is intercepted and inserted as plain text. The serializer independently rejects any unsupported in-memory block/inline/table shape that appears.
 
@@ -65,7 +67,7 @@ A `w:tbl` may be editable only when its structure passes all checks:
 - each cell contains only supported paragraphs/runs;
 - cell shading, when present, is a clear direct RGB fill supported by the codec.
 
-The reader maps this subset to WPF `Table`/`TableRowGroup`/`TableRow`/`TableCell`. The writer reconstructs the table from the current WPF tree. New-table insertion creates only this subset. Row/column mutation routines preserve rectangularity; a mutation that cannot preserve the serializer model is refused.
+The reader maps this subset to WPF `Table`/`TableRowGroup`/`TableRow`/`TableCell`. The writer reconstructs the table from the current WPF tree. New-table insertion creates only this subset. Row/column mutation routines preserve rectangularity and keep `Table.Columns` descriptor count coherent with row-cell width; an inconsistent or non-rectangular mutation state is refused rather than serialized ambiguously.
 
 ### Find/replace
 
@@ -103,11 +105,13 @@ No chart, drawing, field, footnote or unsupported story is ever rewritten from c
 
 ### Explicit document writer
 
-The document writer is the only runtime filesystem mutation boundary. It writes only a path chosen through Save/Save As. Before overwriting an existing target it retains prior bytes in memory. On an ordinary write exception it attempts restoration; a newly created partial target is deleted when possible. It creates no temp file.
+The document writer is the only runtime filesystem mutation boundary. It writes only a path chosen through Save/Save As. Before overwriting an existing target it retains prior bytes in memory. On an ordinary write exception it attempts bounded restoration; a newly created partial target is deleted when possible. If that recovery succeeds, the original write failure remains authoritative. If recovery itself fails, MiniDoc reports explicitly that target integrity is unknown and preserves both write and recovery failures as diagnostic causes. It creates no temp file and does not claim crash/power-failure atomicity.
 
-### PDF session
+### PDF session and asynchronous presentation freshness
 
 Use `StorageFile.GetFileFromPathAsync` and `PdfDocument.LoadFromFileAsync`. For each page, obtain a `PdfPage` in a scoped lifetime, render through `PdfPageRenderOptions` into `InMemoryRandomAccessStream`, transfer bytes into a WPF `BitmapImage` with eager load, then dispose page/stream resources. Render only the current page. Zoom rerenders at 50–400%.
+
+Every asynchronous render captures the active `PdfSession`, requested page, zoom and a monotonic local render-request identity. After each await, image/status/control mutation is allowed only if that captured identity still matches the current session/request. Releasing or replacing a PDF invalidates outstanding render identities. Stale work may finish internally, but it has no Authority to overwrite current presentation or current status.
 
 Password-protected documents stop with an explicit unsupported message.
 
@@ -118,12 +122,13 @@ No resident worker exists. PDF rendering is asynchronous only while the window i
 ## Application and user operation
 
 - New starts an empty editable DOCX session.
-- Open resolves unsaved changes, then selects `.docx`/`.pdf` via the standard Windows picker.
+- Open resolves unsaved changes, obtains and validates the candidate document/session, and only then replaces the current session; a candidate-open failure leaves the previous active session intact.
 - Editable DOCX exposes supported Ribbon controls, case-insensitive search/replace and save.
 - Read-only DOCX exposes selection/copy plus compatibility reasons and extracted text/markers; editing/save controls are disabled.
-- PDF exposes page/zoom controls only.
+- PDF exposes page/zoom controls only; stale asynchronous render results cannot replace current PDF presentation.
 - Save uses the current DOCX path; Save As selects a new path.
 - Close/replace with dirty editable content asks Save / Discard / Cancel.
+- A save failure whose restore/delete recovery also fails is surfaced as target-integrity uncertainty rather than an ordinary recoverable save failure.
 
 ## Build, installation, update, uninstall
 
@@ -142,17 +147,19 @@ No updater, file association, service, scheduled task, Run key, protocol handler
 | WPF + .NET 10 + Windows Runtime | `FIXED` | first-party-only editor/PDF path |
 | WPF Ribbon organization | `FIXED` | Word-like UX without third-party UI framework |
 | Windows 11 x64 supported target | `FIXED` | first-release verified target |
+| Candidate-first session replacement | `FIXED` | failed candidate open cannot dismantle current session before admission |
+| PDF render freshness fencing | `FIXED` | monotonic local request identity; stale completion has no current-UI mutation Authority |
 | Fail-closed DOCX admission | `FIXED` | protects no-silent-loss invariant |
-| Simple rectangular table subset | `FIXED` | required table editing without full Word table engine |
+| Simple rectangular table subset | `FIXED` | required table editing; row-cell and `Table.Columns` descriptor geometry remain coherent |
 | Direct text/paragraph/cell formatting subset | `FIXED` | required basic Word-like editing |
 | Compatibility presentation | `FIXED` | read-only extracted text plus explicit unsupported-semantics markers/placeholders |
 | Charts/SmartArt/shapes compatibility-only | `FIXED` | no lossy flattening or graphics engine |
 | Footnotes/fields/TOC compatibility-only | `FIXED` | no hidden field/layout engine |
 | Case-insensitive current UI search | `FIXED` | no case-sensitive UI toggle in current 0.1 target |
 | Zero runtime technical state | `FIXED` | no AppData/Temp/cache/autosave/recents/customization persistence |
-| Memory-staged non-temp save | `FIXED` | documented non-atomic crash limitation |
+| Memory-staged non-temp save | `FIXED` | recovery is bounded; dual failure yields explicit integrity-unknown state; crash/power atomicity not claimed |
 | Page-at-a-time Windows PDF rendering | `FIXED` | no alternate renderer |
-| Explicit process exit after definitive close | `FIXED`, runtime evidence pending | shutdown invariant |
+| Explicit process exit after definitive close | `FIXED` | shutdown invariant verified on Windows CI configuration |
 | Exact private helper decomposition | `BOUNDED_OPEN` | must preserve architecture responsibilities |
 | Future installer/graphics/fields technology | `BOUNDED_OPEN` outside current target | new target required |
 
@@ -161,11 +168,14 @@ No `UNRESOLVED_BLOCKING` design choice remains for current implementation.
 ## WHAT trace and verification points
 
 - Word-like UI → WPF Ribbon, grouped command availability and mode/context checks;
+- document replacement integrity → candidate-first DOCX/PDF admission before current-session release;
 - find/replace → structure-bounded, case-insensitive current UI search with `TextSearch` fixtures including tables;
 - richer DOCX editing → compatibility scanner + FlowDocument paragraph/run/table model + output reopen;
+- table geometry → rectangular row-cell structure plus coherent `Table.Columns` metadata under add/delete and serializer checks;
 - no silent loss → unsupported object/reference classes force compatibility mode; non-main payload hashes preserved for editable files;
 - chart/diagram handling → explicit marker/placeholder behavior only in read-only compatibility mode;
-- PDF viewing → first-party `Windows.Data.Pdf`, page/zoom Windows tests;
+- PDF viewing → first-party `Windows.Data.Pdf`, page/zoom Windows tests plus current-request fencing for asynchronous UI mutation;
+- explicit save boundary → direct write with bounded restore/delete attempt; dual write/recovery failure exposes integrity uncertainty;
 - zero app state → source/write-boundary audit plus filesystem residue test;
 - close means close → no resident mechanisms + explicit exit + process smoke test after PDF render;
 - install/uninstall → finite ownership manifest + registry/shortcut/path verification;
@@ -174,4 +184,4 @@ No `UNRESOLVED_BLOCKING` design choice remains for current implementation.
 
 ## Recovery/reopen
 
-A failed table/formatting/search round-trip test reopens that DOCX slice. A request for editable shape/chart/footnote/TOC or richer compatibility-preview presentation reopens WHAT/HOW. A PDF render/process-lifecycle failure reopens PDF/process HOW. A residue failure reopens install/uninstall or runtime write ownership. Persistent UI customization reopens the zero-state Decision. Any implementation discovery may reopen only the affected target/design slice.
+A failed replacement-open test or evidence of prior-session destruction reopens shell transition HOW. A failed table/formatting/search round-trip or table descriptor-coherence check reopens that DOCX slice. A request for editable shape/chart/footnote/TOC or richer compatibility-preview presentation reopens WHAT/HOW. A stale PDF render mutating a replaced session, PDF render/process-lifecycle failure, or freshness-fence defect reopens PDF/process HOW. A save path that hides unresolved target integrity after failed recovery reopens the explicit writer HOW. A residue failure reopens install/uninstall or runtime write ownership. Persistent UI customization reopens the zero-state Decision. Any implementation discovery may reopen only the affected target/design slice.
