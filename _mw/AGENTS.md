@@ -6,6 +6,7 @@
 **Work Architecture:** `WA-0001 revision 2` → [`architecture/WORK-ARCHITECTURE.md`](architecture/WORK-ARCHITECTURE.md)  
 **Active Development Epoch:** none  
 **Most recent finalized epoch:** `EPOCH-001` → [`epochs/001-jester-finalization/EPOCH.md`](epochs/001-jester-finalization/EPOCH.md)  
+**Finalization Result:** `FINALIZATION-E001-01` → [`epochs/001-jester-finalization/results/FINALIZATION-E001-01.md`](epochs/001-jester-finalization/results/FINALIZATION-E001-01.md)  
 **Sealed Development Report:** `EDR-E001@1` → [`../development-reports/epoch-001-jester-finalization.md`](../development-reports/epoch-001-jester-finalization.md)
 
 ## Cold entry
@@ -13,7 +14,7 @@
 1. Open this file explicitly.
 2. Resolve the exact current Product Baseline through [`product/PRODUCT.md`](product/PRODUCT.md) before Product reliance or mutation.
 3. Resolve only the semantic owners required by the selected Work; do not mine finalized epochs for current meaning.
-4. For historical reconstruction of the most recent development contour, use the sealed report and finalized EPOCH-001 state.
+4. For historical reconstruction of the most recent development contour, use the sealed report, `FINALIZATION-E001-01`, and finalized EPOCH-001 state.
 5. A new global outcome, periodic cycle, new Jester run or other substantive development objective must bootstrap a **new Development Epoch** under current MADARAII rather than reopening EPOCH-001 by convenience.
 6. Before each distinct substantive Work, logically reset prior actor context and reread current `FOUNDATION`, the selected `MADARAII-NN`, and its matching `EXAMPLE-NN` from `MADARAII/dev`.
 
@@ -33,6 +34,7 @@
 | Research history | [`research/`](research/) |
 | Finalized EPOCH-001 Work State | [`epochs/001-jester-finalization/work/STATE.md`](epochs/001-jester-finalization/work/STATE.md) |
 | EPOCH-001 closure audit | [`epochs/001-jester-finalization/results/CLOSURE-AUDIT-E001-01.md`](epochs/001-jester-finalization/results/CLOSURE-AUDIT-E001-01.md) |
+| EPOCH-001 finalization | [`epochs/001-jester-finalization/results/FINALIZATION-E001-01.md`](epochs/001-jester-finalization/results/FINALIZATION-E001-01.md) |
 | Sealed EPOCH-001 Report | [`../development-reports/epoch-001-jester-finalization.md`](../development-reports/epoch-001-jester-finalization.md) |
 | Legacy pre-epoch closed Work contour | [`work/WORK-0001.md`](work/WORK-0001.md), [`work/STATE.md`](work/STATE.md), [`results/CLOSURE.md`](results/CLOSURE.md) |
 
@@ -50,7 +52,7 @@ The authoritative current Product identity always resolves through [`product/PRO
 
 ## Finalized EPOCH-001
 
-EPOCH-001 completed two Jester Observation cycles, compulsory non-Jester processing, two bounded verified Product repairs, owner reconciliation, summaries, Development Report, `CLOSURE-E001-01 = PASS`, sealed report publication and MADARAII-37 archive-readiness.
+EPOCH-001 completed two Jester Observation cycles, compulsory non-Jester processing, two bounded verified Product repairs, owner reconciliation, summaries, Development Report, `CLOSURE-E001-01 = PASS`, sealed report publication and `FINALIZATION-E001-01` archive-readiness.
 
 The epoch directory remains in place as retained Work history. It is **archive-ready but not physically archived**. A separate archival action may later move it only if both standalone Jester Reports, continuations, evidence/audit/finalization routes and raw/developed Commission remain losslessly reachable.
 
