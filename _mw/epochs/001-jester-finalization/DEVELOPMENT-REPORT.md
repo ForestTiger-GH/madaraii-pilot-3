@@ -42,7 +42,7 @@ The user-facing MiniDoc 0.1 feature boundary did not expand. The epoch strengthe
 
 Current Product owner binds exact source/configuration revision `1df3b56528ac04b4f0d0a043593365b575007b93`. Later `_mw` reporting/owner commits and the architecture-document reconciliation do not redefine Product source/configuration.
 
-## Knowledge, Decision and Architecture outcome
+## Knowledge, Decision, Architecture and Question outcome
 
 Scientific Knowledge remained current and unchanged; no new substantive Research was required.
 
@@ -52,15 +52,9 @@ Target WHAT remained revision 2 through the first repair. The second Jester cycl
 
 Development Report source accounting found one remaining Decision conflict: D-0012/D-0013 still carried richer preview/notes-body clauses. `RECON-E001-0009` reconciled the Decision owner without changing Product or Target. Their compatibility-only rationale remains, but richer presentation clauses are superseded for current 0.1 and accepted D-0015 owns the current marker/text-only decision.
 
-Closure-preparation challenge then found that accepted Product Architecture still referenced Target revision 2 and contained stale compatibility-object rendering language. `ARCHITECTURE-E001-01` reconciled that owner under MADARAII-25. Current `PA-0001 revision 3` preserves the same compact realization units, but now:
+Closure-preparation challenge then found that accepted Product Architecture still referenced Target revision 2 and contained stale compatibility-object rendering language. `ARCHITECTURE-E001-01` reconciled that owner under MADARAII-25. Current `PA-0001 revision 3` preserves the same compact realization units, but now binds WHAT rev.3 / HOW rev.5 / Product `1df3...`, makes Shell explicitly own Open intent/content freshness and candidate admission authority, narrows compatibility extraction to marker/text behavior, and binds Verification to the strengthened installed success oracle. No Product source/configuration changed.
 
-- binds Target WHAT rev.3 / HOW rev.5 and current Product `1df3...`;
-- makes Shell explicitly own Open intent/content freshness and replacement admission authority;
-- keeps PDF responsible for load/render resources while Shell controls late-result presentation authority;
-- narrows DOCX compatibility extraction to main-story text plus explicit markers/placeholders with no current media/notes-part preview allocation;
-- binds Verification to the installed PDF success/exit-code oracle without giving it Product-authority semantics.
-
-This architecture repair changed no Product code/configuration and required no Product re-verification.
+A final cold-read also found that the resolved Question owner still routed Q-0002/Q-0003/Q-0004 through predecessor Target/evidence revisions. `RECON-E001-0010` refreshed those current evidence routes to WHAT rev.3 / HOW rev.5 / `VERIFICATION-E001-02` / `EV-E001-02` without reopening any Question or changing its semantic disposition. Q-0006/Q-0007 remain terminal bounded reliance limits.
 
 ## First Jester cycle
 
@@ -116,7 +110,7 @@ The epoch does not establish interactive Windows 11 visual acceptance, universal
 
 ## Effects and final substantive state
 
-Repository Product, Target, Decision, Product Architecture and Evidence owners changed. No production, release, deployment, external-system, network, user-document, persistent runtime-state or irreversible external effect occurred. `UNKNOWN external effect`: none.
+Repository Product, Target, Decision, Product Architecture, Question-navigation and Evidence owners changed. No production, release, deployment, external-system, network, user-document, persistent runtime-state or irreversible external effect occurred. `UNKNOWN external effect`: none.
 
 At Report cutoff:
 
@@ -125,8 +119,8 @@ At Report cutoff:
 - Product Architecture `PA-0001 revision 3` is current and aligned to those owners;
 - Scientific Knowledge is unchanged/current;
 - Decisions are reconciled through D-0015; richer current-0.1 preview/body clauses in D-0012/D-0013 are superseded while historical rationale remains auditable;
+- Questions route current reliance through current Product/Target/evidence; Q-0006/Q-0007 remain bounded reliance limits;
 - `EV-E001-02` is the current Windows evidence route for the second repair; earlier evidence remains lineage history;
-- Questions contain no human-, implementation- or integration-blocking item; Q-0006/Q-0007 remain bounded reliance limits with reopen triggers;
 - both Jester Reports have complete mandatory non-Jester continuation and terminal downstream accounting;
 - both Product repair contours are implemented, verified, integrated and terminal;
 - release/deployment/validation remain not performed.
@@ -140,7 +134,7 @@ These and this Report are historical/navigation products, not current Product/Kn
 
 ## Residue and next posture
 
-No material Product, Knowledge, Decision or Product-Architecture transition remains routed but unfinished. Jester-derived no-action items are terminally dispositioned. There is no unresolved external effect.
+No material Product, Knowledge, Decision, Product-Architecture or Question transition remains routed but unfinished. Jester-derived no-action items are terminally dispositioned. There is no unresolved external effect.
 
 Remaining commissioned Work is governance only: audit this exact substantive state under MADARAII-36. An accepted `PASS` may route MADARAII-37 on unchanged audited owners. Physical deletion or destructive archive relocation is not implied by archive-readiness.
 
@@ -169,7 +163,7 @@ Remaining commissioned Work is governance only: audit this exact substantive sta
 - `_mw/epochs/001-jester-finalization/results/jester/JR-E001-02.md`
 - `_mw/epochs/001-jester-finalization/intake/JR-E001-02-developed.md`
 
-### Product / target / architecture lineage
+### Product / target / architecture / currentness lineage
 - `_mw/epochs/001-jester-finalization/results/HOW-E001-01.md`
 - `_mw/epochs/001-jester-finalization/results/IMPLEMENTATION-E001-01.md`
 - `_mw/epochs/001-jester-finalization/results/VERIFICATION-E001-01.md`
@@ -181,6 +175,7 @@ Remaining commissioned Work is governance only: audit this exact substantive sta
 - `_mw/epochs/001-jester-finalization/results/INTEGRATION-E001-02.md`
 - `_mw/epochs/001-jester-finalization/results/RECONCILIATION-0008.md`
 - `_mw/epochs/001-jester-finalization/results/RECONCILIATION-0009.md`
+- `_mw/epochs/001-jester-finalization/results/RECONCILIATION-0010.md`
 - `_mw/epochs/001-jester-finalization/results/ARCHITECTURE-E001-01.md`
 - `_mw/evidence/EV-E001-01-WINDOWS-CI.md`
 - `_mw/evidence/EV-E001-02-WINDOWS-CI.md`
@@ -193,6 +188,6 @@ Version-control history remains the deep route for exact source/configuration re
 
 ## Closure-readiness statement
 
-At this refreshed cutoff the commissioned substantive development is reconciled, every material current lesson has a semantic owner outside this Report, Product Architecture agrees with final Target/Product state, and the source manifest is repository-relative and deterministic. The Report is ready for MADARAII-36 closure audit.
+At this refreshed cutoff the commissioned substantive development is reconciled, every material current lesson has a semantic owner outside this Report, Product Architecture and Question navigation agree with final Product/Target state, and the source manifest is repository-relative and deterministic. The Report is ready for MADARAII-36 closure audit.
 
 This is not a closure verdict, seal, archive permission, Product admission, release or deployment claim. Report state remains **candidate / unsealed** until accepted closure audit and MADARAII-37 finalization.
