@@ -1,10 +1,12 @@
-# TARGET-HOW-0001 — MiniDoc 0.1 mechanism set, revision 2
+# TARGET-HOW-0001 — MiniDoc 0.1 mechanism set, revision 3
 
 **Status:** accepted current design baseline for `TARGET-WHAT-0001` revision 2  
 **Environment:** Windows 11 x64, .NET 10 Windows Desktop, Windows Runtime APIs  
 **Architecture:** responsibility allocation in `docs/ARCHITECTURE.md`
 
 This owner is operationally sufficient without reading the Scientific Knowledge corpus.
+
+Revision 3 reconciles two bounded mechanism claims exposed by `JR-E001-01`: current compatibility mode is a safe text/marker fallback rather than a relationship-backed media/notes preview engine, and current UI search is case-insensitive without a case-sensitive toggle. Target WHAT is unchanged.
 
 ## Realization
 
@@ -42,7 +44,7 @@ Load algorithm:
 4. parse XML with DTD prohibited and external resolver disabled;
 5. classify namespace/signature/main-story structures and required related parts;
 6. if every material main-story element is in the supported editable subset, build an editable `FlowDocument` plus immutable original-package session;
-7. otherwise build a read-only compatibility document with extracted text, explicit reasons and supported object/reference presentations; no save authority is granted.
+7. otherwise build a read-only compatibility document with extracted text, explicit reasons and bounded markers/placeholders for unsupported structures; no save authority is granted.
 
 Strict OOXML, package signatures, macros/unsupported container forms, unsupported styles/references, unknown material markup and any ambiguity in ownership/classification fail closed.
 
@@ -72,19 +74,19 @@ The reader maps this subset to WPF `Table`/`TableRowGroup`/`TableRow`/`TableCell
 - Find Next selects the next exact range from the caret, wrapping once when requested.
 - Replace replaces the current exact selected match only.
 - Replace All discovers lane-local matches and applies replacements from the end of each lane toward the beginning to preserve earlier positions.
-- Search is case-insensitive by default with an optional case-sensitive toggle; replacement is literal text, not regex.
+- Current MiniDoc 0.1 UI search is case-insensitive; replacement is literal text, not regex. The reusable search mechanism may accept bounded case-sensitivity internally, but no case-sensitive UI control is part of the current target.
 
 ### Compatibility view for objects, references and fields
 
-Compatibility mode is a read-only `FlowDocument` built from source package content without granting serialization authority.
+Compatibility mode is a read-only `FlowDocument` built from the parsed main-document story without granting serialization authority.
 
-- Ordinary extractable text is shown in document order where safe.
-- A recognized embedded raster picture may be decoded in memory and inserted as a WPF `Image` when its `r:embed` relationship resolves to a bounded image part of an allowed raster content type.
-- For chart/SmartArt/shape/drawing objects, the extractor searches only their explicit relationship/AlternateContent/fallback lineage for an associated safe image. If none is established, it inserts a labeled object placeholder.
-- Footnote/endnote references may be rendered as labeled reference markers followed by an appended “Notes” section containing safely extracted referenced story text.
-- Complex/simple field code is never evaluated. Stored field result text may be shown with a label indicating cached result; TOC is therefore view-only cached content, not recalculated content.
+- Ordinary safely extractable main-story text is shown in document order.
+- Graphics, drawings, charts, SmartArt, embedded objects and related unsupported visual structures are represented by explicit labeled markers/placeholders. MiniDoc 0.1 does not dereference package media relationships to render object previews in compatibility mode.
+- Footnote/endnote references are represented by labeled reference markers. MiniDoc 0.1 does not dereference notes parts to append note-body text.
+- Complex/simple field code is never evaluated. Main-story cached/result text that is safely extractable may appear as ordinary text while field-related structures are explicitly marked; TOC is not recalculated.
+- Compatibility presentation never implies editable equivalence or save authority for unsupported source semantics.
 
-Any ambiguous relationship, oversized media, unsupported media type or malformed object yields a placeholder/reason rather than guessed rendering.
+Relationship-backed media preview extraction and resolved note-body presentation are outside the current 0.1 committed mechanism. They require a later target/design change if desired.
 
 ### DOCX save algorithm
 
@@ -117,8 +119,8 @@ No resident worker exists. PDF rendering is asynchronous only while the window i
 
 - New starts an empty editable DOCX session.
 - Open resolves unsaved changes, then selects `.docx`/`.pdf` via the standard Windows picker.
-- Editable DOCX exposes supported Ribbon controls, search/replace and save.
-- Read-only DOCX exposes selection/copy plus compatibility reasons/previews/reference text; editing/save controls are disabled.
+- Editable DOCX exposes supported Ribbon controls, case-insensitive search/replace and save.
+- Read-only DOCX exposes selection/copy plus compatibility reasons and extracted text/markers; editing/save controls are disabled.
 - PDF exposes page/zoom controls only.
 - Save uses the current DOCX path; Save As selects a new path.
 - Close/replace with dirty editable content asks Save / Discard / Cancel.
@@ -143,8 +145,10 @@ No updater, file association, service, scheduled task, Run key, protocol handler
 | Fail-closed DOCX admission | `FIXED` | protects no-silent-loss invariant |
 | Simple rectangular table subset | `FIXED` | required table editing without full Word table engine |
 | Direct text/paragraph/cell formatting subset | `FIXED` | required basic Word-like editing |
+| Compatibility presentation | `FIXED` | read-only extracted text plus explicit unsupported-semantics markers/placeholders |
 | Charts/SmartArt/shapes compatibility-only | `FIXED` | no lossy flattening or graphics engine |
 | Footnotes/fields/TOC compatibility-only | `FIXED` | no hidden field/layout engine |
+| Case-insensitive current UI search | `FIXED` | no case-sensitive UI toggle in current 0.1 target |
 | Zero runtime technical state | `FIXED` | no AppData/Temp/cache/autosave/recents/customization persistence |
 | Memory-staged non-temp save | `FIXED` | documented non-atomic crash limitation |
 | Page-at-a-time Windows PDF rendering | `FIXED` | no alternate renderer |
@@ -157,10 +161,10 @@ No `UNRESOLVED_BLOCKING` design choice remains for current implementation.
 ## WHAT trace and verification points
 
 - Word-like UI → WPF Ribbon, grouped command availability and mode/context checks;
-- find/replace → structure-bounded `TextSearch` fixtures including tables;
+- find/replace → structure-bounded, case-insensitive current UI search with `TextSearch` fixtures including tables;
 - richer DOCX editing → compatibility scanner + FlowDocument paragraph/run/table model + output reopen;
 - no silent loss → unsupported object/reference classes force compatibility mode; non-main payload hashes preserved for editable files;
-- chart/diagram handling → explicit preview-or-placeholder behavior only in read-only mode;
+- chart/diagram handling → explicit marker/placeholder behavior only in read-only compatibility mode;
 - PDF viewing → first-party `Windows.Data.Pdf`, page/zoom Windows tests;
 - zero app state → source/write-boundary audit plus filesystem residue test;
 - close means close → no resident mechanisms + explicit exit + process smoke test after PDF render;
@@ -170,4 +174,4 @@ No `UNRESOLVED_BLOCKING` design choice remains for current implementation.
 
 ## Recovery/reopen
 
-A failed table/formatting/search round-trip test reopens that DOCX slice. A request for editable shape/chart/footnote/TOC reopens WHAT/HOW. A PDF render/process-lifecycle failure reopens PDF/process HOW. A residue failure reopens install/uninstall or runtime write ownership. Persistent UI customization reopens the zero-state Decision. Any implementation discovery may reopen only the affected target/design slice.
+A failed table/formatting/search round-trip test reopens that DOCX slice. A request for editable shape/chart/footnote/TOC or richer compatibility-preview presentation reopens WHAT/HOW. A PDF render/process-lifecycle failure reopens PDF/process HOW. A residue failure reopens install/uninstall or runtime write ownership. Persistent UI customization reopens the zero-state Decision. Any implementation discovery may reopen only the affected target/design slice.
