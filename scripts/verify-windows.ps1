@@ -55,6 +55,8 @@ try {
     $exe = Join-Path $installDir 'MiniDoc.exe'
     $process = Start-Process -FilePath $exe -ArgumentList @('--verify-close-after-open', "`"$PdfFixture`"") -PassThru
     Wait-Process -Id $process.Id -Timeout 30
+    $process.Refresh()
+    Assert-True ($process.ExitCode -eq 0) 'Installed MiniDoc did not successfully open and render the verification PDF before closing.'
     Start-Sleep -Milliseconds 400
     Assert-True (-not (Get-Process -Id $process.Id -ErrorAction SilentlyContinue)) 'MiniDoc process remained alive after PDF open/render and normal window Close().'
 
