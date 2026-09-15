@@ -3,31 +3,34 @@
 **State identity:** `WORKSTATE-E001`  
 **Status:** ACTIVE  
 **Current Product Baseline:** `4a7c1d5b2bea939ebd508dcce19c4e93f58149cf`  
-**Current Target WHAT:** `TARGET-WHAT-0001` revision 2  
-**Current Target HOW:** `TARGET-HOW-0001` revision 4  
+**Current Target WHAT:** `TARGET-WHAT-0001` revision 3  
+**Current Target HOW:** `TARGET-HOW-0001` revision 5  
 **Governing MADARAII:** `721a199352b5c5282b1478cd6a5eb36a9872fb34`
 
 ## Established
 
 - Legacy `WORK-0001` remains closed with `CLOSURE-0001 = PASS`.
-- First Jester `JST-E001-01` and its mandatory non-Jester continuation are complete; its useful HOW and Product repairs were integrated.
-- `INTEGRATION-E001-01` admitted exact verified Product `4a7c1d5...`; Target HOW revision 4 and `EV-E001-01` are current.
-- Second Jester `JST-E001-02` completed in Observation mode; standalone `JR-E001-02` is preserved.
-- `JR-E001-02` mandatory non-Jester continuation completed through `JR-E001-02-developed` and `RECON-E001-0006`.
+- First Jester and its mandatory continuation are complete; useful pass-1 HOW/Product repairs were verified and integrated as current Product `4a7c1d5...`.
+- Second Jester `JST-E001-02`, standalone `JR-E001-02`, Actor Input Development and `RECON-E001-0006` are complete.
 - `JR2-A5` and `JR2-A6` are terminal no-action for current 0.1.
+- `WHAT-E001-02` reconciled compatibility presentation into current Target WHAT revision 3.
+- `HOW-E001-02` reconciled asynchronous Open authority and installed PDF verification semantics into current Target HOW revision 5.
+- `RECON-E001-0007` established one coherent second Product repair contour for `JR2-A1/A2/A4`.
 
 ## Current posture
 
-Three second-Jester concern groups remain admitted for specialized follow-up:
+The current admitted Product remains `PRODUCT-0001 / 4a7c...` and is current for unaffected behavior. It is stale only in the bounded shell/open-verification slice newly governed by Target HOW revision 5.
 
-1. `JR2-A3`: current Target WHAT compatibility-preview/note-body language must be reconciled with current HOW/Product/public contract;
-2. `JR2-A1/A2`: asynchronous PDF-open admission must preserve later user intent and post-prompt dirty-state authority;
-3. `JR2-A4`: installed lifecycle verification needs a success oracle that distinguishes completed installed UI PDF admission/render from caught open failure.
+`PLAN-E001-02` under MADARAII-30 is the only eligible substantive Work. It must bind the exact current Product slice and plan:
 
-MADARAII-17 Target WHAT reconciliation for `JR2-A3` is the only eligible substantive Work now. Target HOW revision and any Product/evidence repair remain dependent on that owner transition.
+1. open-intent freshness across New/Open;
+2. document-content freshness across the unsaved-change decision and asynchronous candidate loading;
+3. explicit installed PDF open/render success and exit-code verification oracle.
 
-Summaries, Epoch Development Report, closure audit and finalization remain waiting until these justified follow-ups reach accepted or terminal posture.
+No release, deployment, persistent runtime state, background worker, network behavior, or new user-facing feature is authorized.
+
+Summaries, Epoch Development Report, closure audit and finalization remain waiting until the second repair contour reaches integrated or terminal posture.
 
 ## Recovery route
 
-Open `_mw/AGENTS.md`, reread current `FOUNDATION`, MADARAII-17 and EXAMPLE-17, then resolve current Target WHAT rev.2, current Target HOW rev.4, Product `4a7c...`, `HOW-E001-01`, `JR-E001-02-developed`, and `RECON-E001-0006`. Reconcile only the compatibility-mode commitment slice; do not silently redesign unrelated Target WHAT.
+Open `_mw/AGENTS.md`, reread current `FOUNDATION`, MADARAII-30 and EXAMPLE-30, then resolve Product `4a7c...`, Target WHAT rev.3, Target HOW rev.5, `HOW-E001-02`, and exact current shell/startup/verification source surfaces. Revalidate Product Baseline immediately before mutation in later implementation Work.
