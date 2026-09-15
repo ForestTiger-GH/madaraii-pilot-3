@@ -5,12 +5,25 @@ MiniDoc is a small standalone Windows desktop application for bounded basic DOCX
 ## Implemented
 
 - DOCX: basic text editing, direct font/text formatting, paragraph formatting, Find/Replace, and simple rectangular tables.
-- Compatibility mode: richer DOCX constructs remain read-only rather than receiving lossy save authority.
+- Compatibility mode: richer DOCX constructs remain read-only with safely extractable main-story text plus explicit markers/placeholders rather than lossy save authority.
 - PDF: local view-only rendering, page navigation and 50–400% zoom.
 - Lifecycle: self-contained `win-x64` build, Program Files installation, all-users shortcuts, HKLM uninstall registration, bounded uninstall.
 - Runtime state: no MiniDoc settings/cache/recents/autosave/telemetry/background service/updater state.
+- Session integrity: replacement Open is candidate-first and freshness-fenced; stale Open/render work cannot acquire newer current-session presentation authority.
 
 Native Word shapes/charts/SmartArt authoring, footnote authoring, TOC/field recalculation, full Word layout fidelity and PDF editing are outside 0.1.
+
+## Current admitted Product
+
+Current `PRODUCT-0001` binds exact verified Product source/configuration revision:
+
+`1df3b56528ac04b4f0d0a043593365b575007b93`
+
+It realizes `TARGET-WHAT-0001` revision 3 and `TARGET-HOW-0001` revision 5 under `PA-0001 revision 3`.
+
+Windows CI run `34976593344` on that exact candidate passed build/semantic checks/package, dependency boundary, installed PDF admission/render success + process exit, uninstall/residue checks and artifact upload. The current evidence route is `_mw/evidence/EV-E001-02-WINDOWS-CI.md` / `VERIFICATION-E001-02`.
+
+Admission is not a release/deployment claim. Interactive Windows 11 visual acceptance and broad real-document qualification remain explicit bounded evidence limits.
 
 ## Build
 
@@ -31,10 +44,22 @@ See:
 - [`docs/BUILD-INSTALL-VERIFY.md`](docs/BUILD-INSTALL-VERIFY.md)
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
 
-The exact admitted source/configuration candidate `b2cafabba970245b7ccb24f6f01a3ca2e2ba9681` passed Windows CI run [34545614992](https://github.com/ForestTiger-GH/madaraii-pilot-3/actions/runs/34545614992): build, semantic DOCX/search/table checks, real Windows PDF rendering, dependency census, install, normal PDF-close process termination, uninstall and bounded residue checks.
+## Development history
 
-CI executed on Windows Server 2025 (`10.0.26100`), so interactive Windows 11 visual/usability qualification remains a documented local acceptance step rather than an inferred claim.
+The post-closure Jester finalization epoch moved the admitted Product lineage:
+
+`b2cafabba970245b7ccb24f6f01a3ca2e2ba9681`
+→ `4a7c1d5b2bea939ebd508dcce19c4e93f58149cf`
+→ `1df3b56528ac04b4f0d0a043593365b575007b93`
+
+Its closure audit passed. The durable sealed Development Report is published outside the epoch Work Plane at:
+
+- [`development-reports/epoch-001-jester-finalization.md`](development-reports/epoch-001-jester-finalization.md)
+
+The standalone Jester Reports and detailed Work history remain separately preserved under the epoch history; the sealed Development Report does not replace them.
 
 ## Engineering state
 
-The repository contains its complete cold-recoverable MADAR Workspace under [`_mw/`](_mw/). Start with [`_mw/WORKSPACE.md`](_mw/WORKSPACE.md) and [`_mw/work/STATE.md`](_mw/work/STATE.md). Product admission, evidence, verification and closure are owned separately from source code.
+The complete cold-recoverable MADAR Workspace is under [`_mw/`](_mw/). Start with [`_mw/AGENTS.md`](_mw/AGENTS.md), which resolves current semantic owners and the most recent finalized epoch state.
+
+Current Product, Scientific Knowledge, Target WHAT/HOW, Decisions, Questions and Evidence live outside the epoch-specific Work history. A new global outcome must begin a new Development Epoch rather than appending substantive Work to the sealed EPOCH-001 Baseline.
