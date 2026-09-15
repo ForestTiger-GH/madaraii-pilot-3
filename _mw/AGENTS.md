@@ -36,7 +36,9 @@ Generated search results, directory listings, summaries, and this passport are r
 
 ## Product Baseline
 
-Legacy closure admitted exact verified candidate commit `b2cafabba970245b7ccb24f6f01a3ca2e2ba9681`. Later engineering-state commits do not silently redefine Product source identity. Any accepted Product change in the active epoch must establish a new Product identity through its proper implementation, verification, and integration path.
+The epoch started from legacy-closure Product `b2cafabba970245b7ccb24f6f01a3ca2e2ba9681`. EPOCH-001 subsequently admitted two verified repairs through the Product owner: `4a7c1d5b2bea939ebd508dcce19c4e93f58149cf`, then current Product `1df3b56528ac04b4f0d0a043593365b575007b93` through `INTEGRATION-E001-02`.
+
+The authoritative current Product identity always resolves through [`product/PRODUCT.md`](product/PRODUCT.md); this passport is only a routing projection. Later Work-plane/reporting commits do not silently redefine the Product source/configuration revision.
 
 ## Active epoch purpose
 
