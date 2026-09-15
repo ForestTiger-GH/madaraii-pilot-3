@@ -25,6 +25,7 @@ public partial class MainWindow : RibbonWindow
     private bool _dirty;
     private bool _suppressDirty;
     private bool _pdfRendering;
+    private long _pdfRenderRequest;
     private uint _pdfPage;
     private int _zoomIndex = 2;
     private static readonly double[] ZoomLevels = [0.50, 0.75, 1.00, 1.25, 1.50, 2.00, 3.00, 4.00];
@@ -90,8 +91,8 @@ public partial class MainWindow : RibbonWindow
             var extension = Path.GetExtension(path);
             if (extension.Equals(".docx", StringComparison.OrdinalIgnoreCase))
             {
-                ReleasePdf();
                 var opened = DocxCodec.Open(path);
+                ReleasePdf();
                 _docxSession = opened.Session;
                 _currentPath = path;
                 _mode = opened.IsEditable ? DocumentMode.EditableDocx : DocumentMode.ReadOnlyDocx;
@@ -130,11 +131,12 @@ public partial class MainWindow : RibbonWindow
 
     private async Task OpenPdfAsync(string path)
     {
+        var candidate = await PdfSession.OpenAsync(path);
         ReleasePdf();
         _docxSession = null;
         _currentPath = path;
         _dirty = false;
-        _pdfSession = await PdfSession.OpenAsync(path);
+        _pdfSession = candidate;
         _pdfPage = 0;
         _zoomIndex = 2;
         _mode = DocumentMode.Pdf;
@@ -147,25 +149,44 @@ public partial class MainWindow : RibbonWindow
 
     private async Task RenderPdfAsync()
     {
-        if (_pdfSession is null || _pdfRendering) return;
+        var session = _pdfSession;
+        if (session is null) return;
+
+        var page = _pdfPage;
+        var zoomIndex = _zoomIndex;
+        var request = ++_pdfRenderRequest;
         _pdfRendering = true;
+        UpdatePdfControls();
         try
         {
             StatusText.Text = "Rendering PDF page...";
-            PdfImage.Source = await _pdfSession.RenderPageAsync(_pdfPage, ZoomLevels[_zoomIndex]);
+            var image = await session.RenderPageAsync(page, ZoomLevels[zoomIndex]);
+            if (!IsCurrentPdfRender(request, session, page, zoomIndex)) return;
+            PdfImage.Source = image;
             StatusText.Text = "PDF view (read-only)";
         }
         catch (Exception ex)
         {
+            if (!IsCurrentPdfRender(request, session, page, zoomIndex)) return;
             StatusText.Text = "PDF render failed";
             MessageBox.Show(this, ex.Message, "PDF render failed", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         finally
         {
-            _pdfRendering = false;
-            UpdatePdfControls();
+            if (request == _pdfRenderRequest)
+            {
+                _pdfRendering = false;
+                UpdatePdfControls();
+            }
         }
     }
+
+    private bool IsCurrentPdfRender(long request, PdfSession session, uint page, int zoomIndex) =>
+        request == _pdfRenderRequest &&
+        ReferenceEquals(_pdfSession, session) &&
+        _mode == DocumentMode.Pdf &&
+        _pdfPage == page &&
+        _zoomIndex == zoomIndex;
 
     private async void PrevPdf_Click(object sender, RoutedEventArgs e)
     {
@@ -474,6 +495,8 @@ public partial class MainWindow : RibbonWindow
 
     private void ReleasePdf()
     {
+        _pdfRenderRequest++;
+        _pdfRendering = false;
         PdfImage.Source = null;
         _pdfSession?.Dispose();
         _pdfSession = null;
