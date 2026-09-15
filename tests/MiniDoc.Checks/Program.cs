@@ -17,6 +17,7 @@ internal static class Program
         {
             CheckSearchAcrossRuns();
             CheckEditableTableRoundTrip();
+            CheckTableColumnMetadataTracksEdits();
             CheckUnsupportedDrawingFailsClosed();
             CheckPdfRendering().GetAwaiter().GetResult();
             Console.WriteLine("MiniDoc.Checks: PASS");
@@ -78,6 +79,29 @@ internal static class Program
         var text = new TextRange(reloaded.Document.ContentStart, reloaded.Document.ContentEnd).Text;
         Require(text.Contains("MiniDoc table fixture", StringComparison.Ordinal), "Paragraph text must survive round trip.");
         Require(text.Contains("A1", StringComparison.Ordinal) && text.Contains("B2", StringComparison.Ordinal), "Table cell text must survive round trip.");
+    }
+
+    private static void CheckTableColumnMetadataTracksEdits()
+    {
+        var opened = DocxCodec.CreateNew();
+        var document = opened.Document;
+        var anchor = document.Blocks.OfType<Paragraph>().First();
+        var table = TableEditor.InsertTable(document, anchor.ContentEnd, rows: 2, columns: 2);
+        var group = table.RowGroups[0];
+        var firstRow = group.Rows[0];
+
+        Require(table.Columns.Count == 2 && group.Rows.Cast<TableRow>().All(row => row.Cells.Count == 2),
+            "Inserted table column descriptors must match row-cell width.");
+
+        var addContext = new TableContext(table, group, firstRow, firstRow.Cells[0], 0);
+        TableEditor.AddColumn(addContext);
+        Require(table.Columns.Count == 3 && group.Rows.Cast<TableRow>().All(row => row.Cells.Count == 3),
+            "AddColumn must keep Table.Columns and row-cell width aligned.");
+
+        var deleteContext = new TableContext(table, group, firstRow, firstRow.Cells[1], 1);
+        TableEditor.DeleteCurrentColumn(deleteContext, document);
+        Require(table.Columns.Count == 2 && group.Rows.Cast<TableRow>().All(row => row.Cells.Count == 2),
+            "DeleteCurrentColumn must keep Table.Columns and row-cell width aligned.");
     }
 
     private static void CheckUnsupportedDrawingFailsClosed()
