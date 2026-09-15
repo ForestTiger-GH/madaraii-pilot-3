@@ -7,17 +7,17 @@
 
 ## Established
 
-- Legacy Product-development contour `WORK-0001` remains closed with `CLOSURE-0001 = PASS`.
-- `WA-0001 revision 2` establishes the post-closure epoch geometry.
-- `_mw/AGENTS.md` is the current workspace passport.
-- Raw human Commission is preserved as `INBOX-0001`.
+- Legacy `WORK-0001` remains closed with `CLOSURE-0001 = PASS`.
+- Workspace reconfiguration for current MADARAII is complete: `WA-0001 revision 2`, `_mw/AGENTS.md`, `EPOCH-001`.
+- Human Commission carrier `INBOX-0001` was developed as `INPUT-DEV-E001-0001` and archived without changing its semantic acts.
+- `RECON-E001-0001` admitted first Jester Work `JST-E001-01` in Observation mode.
 
 ## Current posture
 
-The new Commission is composite and must be developed into bounded semantic acts before substantive Jester execution. After logical reset and fresh MADARAII rehydration, the immediate eligible Work is actor-input development of `INBOX-0001`, followed by Work-state reconciliation and admission of the first Jester Work contract.
+`JST-E001-01` is the only active/eligible substantive Work. Its exact Subject is Product Baseline `b2caf...`; Product mutation is prohibited. Mandatory successor `ADI-JR-E001-01` is separately authorized but waiting for the established Jester Report and non-mutation confirmation.
 
-No Jester run is active yet. No Product mutation is authorized by this state alone.
+Second Jester, summaries, Development Report, closure audit, and finalization remain waiting on their real dependencies.
 
 ## Recovery route
 
-Open `_mw/AGENTS.md`, then this file, then resolve the exact instruction needed for the next eligible Work from current `MADARAII/dev`. Prior actor context is non-authoritative.
+Open `_mw/AGENTS.md`, reread current `FOUNDATION`, MADARAII-40 and EXAMPLE-40, then open `work/JST-E001-01.md` and resolve exact Product/Knowledge inputs needed for the provocative trajectory. Prior actor reasoning is non-authoritative.
