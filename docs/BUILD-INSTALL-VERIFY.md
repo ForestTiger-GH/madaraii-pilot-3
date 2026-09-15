@@ -62,12 +62,15 @@ The verification contour checks:
 1. clean pre-install owner state;
 2. per-machine installation and declared shortcuts/registry owner;
 3. absence of MiniDoc AppData state;
-4. launch of the installed Product with a PDF fixture through the normal PDF render path;
-5. normal main-window Close after PDF rendering and process termination;
-6. uninstall;
-7. removal of declared installer-owned resources;
-8. preservation of an unowned user-document sentinel;
-9. absence of MiniDoc-named AppData/Temp residue covered by the test.
+4. launch of the installed Product with a PDF fixture through the normal shell admission/render path;
+5. successful selected-PDF admission and successful initial page render before verification-mode success;
+6. normal main-window Close after that successful render, process termination, and process exit code `0`;
+7. uninstall;
+8. removal of declared installer-owned resources;
+9. preservation of an unowned user-document sentinel;
+10. absence of MiniDoc-named AppData/Temp residue covered by the test.
+
+Verification mode is intentionally noninteractive: an open/render failure exits non-zero instead of being converted into a modal error followed by apparent lifecycle success. This gives the installed-path test a success oracle rather than proving only that a process eventually terminated.
 
 GitHub Actions executes the same build and lifecycle path on a disposable Windows runner. A green workflow is evidence for that exact repository commit and runner configuration; it does not substitute for testing every end-user Windows configuration.
 
