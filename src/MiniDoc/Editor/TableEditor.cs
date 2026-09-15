@@ -49,6 +49,7 @@ internal static class TableEditor
     internal static void AddColumn(TableContext context)
     {
         foreach (var row in context.Group.Rows) row.Cells.Add(CreateCell());
+        context.Table.Columns.Add(new TableColumn());
     }
 
     internal static void DeleteCurrentColumn(TableContext context, FlowDocument document)
@@ -62,6 +63,9 @@ internal static class TableEditor
                 throw new InvalidOperationException("The table is no longer rectangular. The operation was refused.");
             row.Cells.Remove(cells[context.ColumnIndex]);
         }
+        if (context.ColumnIndex >= context.Table.Columns.Count)
+            throw new InvalidOperationException("The table column metadata is inconsistent. The operation was refused.");
+        context.Table.Columns.RemoveAt(context.ColumnIndex);
     }
 
     internal static void SetCurrentCellFill(TableContext context, Brush brush)
