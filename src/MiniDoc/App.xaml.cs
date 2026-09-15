@@ -17,9 +17,15 @@ public partial class App : Application
             string.Equals(e.Args[0], "--verify-close-after-open", StringComparison.Ordinal);
         var rawPath = verificationClose ? e.Args[1] : e.Args[0];
         var path = Path.GetFullPath(rawPath);
-        if (!File.Exists(path)) return;
+        if (!File.Exists(path))
+        {
+            if (verificationClose) Environment.Exit(2);
+            return;
+        }
 
-        await window.OpenInitialPathAsync(path);
-        if (verificationClose) window.Close();
+        var opened = await window.OpenInitialPathAsync(path);
+        if (!verificationClose) return;
+        if (!opened) Environment.Exit(2);
+        window.Close();
     }
 }
