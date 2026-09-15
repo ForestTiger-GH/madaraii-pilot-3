@@ -19,6 +19,21 @@ Immediately before finalization, compare from the audited Baseline to repository
 
 Finalization subsequently performed only authorized seal/publication/status-projection effects. It did not mutate Product source/configuration, Target WHAT/HOW, Scientific Knowledge, Decisions, Questions, Product Architecture or Evidence payload.
 
+### Post-finalization no-change verification
+
+After all commissioned finalization/publication routing updates except this Result's own proof write-back, repository `main` was exact commit `015dd16f7c66592b3e22df3d997e19fb7d3b72e8`. Compare from audited Baseline `5c8b6d3...` to that head showed exactly these eight paths:
+
+1. `README.md` — final current Product/report/finalization publication route;
+2. `_mw/AGENTS.md` — no-active-epoch cold-entry and finalized-epoch routes;
+3. `_mw/WORKSPACE.md` — legacy compatibility projection;
+4. `_mw/epochs/001-jester-finalization/EPOCH.md` — authorized lifecycle transition to finalized/archive-ready;
+5. `_mw/epochs/001-jester-finalization/results/CLOSURE-AUDIT-E001-01.md` — accepted MADARAII-36 audit Result;
+6. `_mw/epochs/001-jester-finalization/results/FINALIZATION-E001-01.md` — this MADARAII-37 Result;
+7. `_mw/epochs/001-jester-finalization/work/STATE.md` — authorized lifecycle projection to finalized/archive-ready;
+8. `development-reports/epoch-001-jester-finalization.md` — canonical sealed Report publication.
+
+No Product source/build/install/test surface and no current Product, Scientific Knowledge, Target WHAT, Target HOW, Product Architecture, Decision, Question or Evidence owner appears in the diff. The finalization change set is therefore bounded to the audit artifact plus authorized sealing/publication/status/routing surfaces. The final proof write-back to this Result is itself a finalization-record update and does not alter any audited substantive owner.
+
 ## Final substantive owners confirmed
 
 | Role | Final current identity / route | Finalization action |
@@ -62,7 +77,7 @@ Current engineering meaning does not require dereferencing `_mw/epochs/001-jeste
 - sealed epoch history → `development-reports/epoch-001-jester-finalization.md`;
 - repository front door → `README.md` and `_mw/AGENTS.md`.
 
-`README.md` was refreshed as a publication projection from the already-audited state: it now routes current Product `1df3...`, current verification/evidence, current engineering front door and sealed report. This is not a new semantic owner.
+`README.md` was refreshed as a publication projection from the already-audited state: it now routes current Product `1df3...`, current verification/evidence, current engineering front door, `FINALIZATION-E001-01`, and sealed report. This is not a new semantic owner.
 
 **Combined Product/Knowledge/Report edition:** not commissioned; omitted deliberately.
 
@@ -121,9 +136,9 @@ Authorized lifecycle/projection changes performed:
 
 - `EPOCH.md`: `active` → `finalized / archive-ready; not physically archived`;
 - epoch Work State: `ACTIVE — closure audit candidate` → `FINALIZED / ARCHIVE_READY`;
-- `_mw/AGENTS.md`: active epoch route removed; EPOCH-001 becomes most recent finalized epoch, current-state cold entry routes directly to semantic owners;
-- `_mw/WORKSPACE.md`: legacy compatibility projection now states no active epoch and routes sealed history;
-- `README.md`: current Product/evidence/report routes refreshed;
+- `_mw/AGENTS.md`: active epoch route removed; EPOCH-001 becomes most recent finalized epoch, current-state cold entry routes directly to semantic owners and finalization history;
+- `_mw/WORKSPACE.md`: legacy compatibility projection now states no active epoch and routes closure/finalization/sealed history;
+- `README.md`: current Product/evidence/finalization/report routes refreshed;
 - canonical sealed report published outside epoch Work Plane.
 
 These are authorized finalization/publication changes, not substantive Product/Knowledge owner transitions.
