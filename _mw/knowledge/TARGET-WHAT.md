@@ -1,10 +1,12 @@
-# TARGET-WHAT-0001 — MiniDoc 0.1, target revision 2
+# TARGET-WHAT-0001 — MiniDoc 0.1, target revision 3
 
-**Status:** accepted current target baseline for `WORK-0001` after `INBOX-0002`  
+**Status:** accepted current target baseline for MiniDoc 0.1  
 **Product identity:** `MiniDoc`  
 **Target version:** `0.1.0`  
 **Environment:** Windows 11 x64  
 **Primary beneficiary:** a user who wants a deliberately small local Word-like DOCX editor and PDF viewer with explicit compatibility limits
+
+Revision 3 reconciles the compatibility-mode presentation boundary with the admitted MiniDoc 0.1 Product and Target HOW. It does not add a feature: current compatibility mode guarantees safely extractable main-story text plus explicit markers/placeholders for unsupported semantics; relationship-backed media previews and dereferenced note-body presentation require a later target change if desired.
 
 ## Purpose and value boundary
 
@@ -85,7 +87,7 @@ MiniDoc never silently turns an unsupported Word feature into ordinary text or a
 
 ## DOCX compatibility mode
 
-A structurally readable DOCX whose material semantics exceed the editable subset opens in explicit **read-only compatibility mode**. The original file remains untouched. The view provides best-effort readable content and states why editing is unavailable.
+A structurally readable DOCX whose material semantics exceed the editable subset opens in explicit **read-only compatibility mode**. The original file remains untouched. The view provides best-effort safely extractable main-story content, explicit markers/placeholders for unsupported semantics, and states why editing is unavailable.
 
 Compatibility triggers include, among others:
 
@@ -99,17 +101,17 @@ Compatibility triggers include, among others:
 
 ### Graphic objects in compatibility mode
 
-For embedded raster pictures and other graphic objects, the compatibility viewer attempts only evidence-backed presentation:
+Graphics, drawings, charts, SmartArt, embedded objects and related unsupported visual structures are represented by explicit labeled markers/placeholders while safely extractable main-story text remains visible.
 
-- a recognized raster image part may be shown when a valid relationship resolves it;
-- for chart/SmartArt/shape objects, an associated image/fallback preview is shown only when package relationships/markup identify one safely;
-- where no reliable preview exists, the view shows a labeled object placeholder rather than inventing a representation.
+MiniDoc 0.1 does **not** commit to dereferencing package media relationships to render raster pictures, chart/SmartArt/shape previews or fallback images in compatibility mode. Relationship-backed preview presentation is outside the current release target and requires a later target/design change if desired.
 
 Native shape creation/editing and native chart/SmartArt editing are outside this release.
 
 ### Footnotes and TOC/fields in compatibility mode
 
-Where safely resolvable, compatibility view may expose footnote/endnote body text and stored field-result text. It does not promise Word-like bottom-of-page footnote placement or recalculation/update of fields/TOC. Footnote authoring and TOC creation/update remain outside this release.
+Footnote/endnote references are represented by explicit read-only reference markers. MiniDoc 0.1 does **not** commit to dereferencing notes parts to append footnote/endnote body text in compatibility mode.
+
+Complex/simple field code is not evaluated or recalculated. Stored/cached result text that is safely present in the main story may remain visible as ordinary extracted content while field/TOC semantics are explicitly marked. Footnote authoring and TOC creation/update remain outside this release.
 
 ## PDF view mode
 
@@ -163,7 +165,7 @@ MiniDoc builds DOCX output fully in memory before final write and retains prior 
 
 ## Non-goals
 
-Full Office compatibility; DOC/DOCM/macros; styles/list/numbering engine; merged/nested/complex tables; native shape/chart/SmartArt authoring; footnote editing; TOC/field generation or recalculation; Word pagination fidelity; PDF editing/printing/OCR; cloud sync/collaboration; auto-update; file associations; background operation; persistent Ribbon customization.
+Full Office compatibility; DOC/DOCM/macros; styles/list/numbering engine; merged/nested/complex tables; native shape/chart/SmartArt authoring; relationship-backed compatibility previews; dereferenced footnote/endnote body presentation; footnote editing; TOC/field generation or recalculation; Word pagination fidelity; PDF editing/printing/OCR; cloud sync/collaboration; auto-update; file associations; background operation; persistent Ribbon customization.
 
 ## Completion semantics
 
