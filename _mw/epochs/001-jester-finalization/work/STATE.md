@@ -12,16 +12,21 @@
 - Legacy `WORK-0001` remains closed with `CLOSURE-0001 = PASS`.
 - Workspace reconfiguration and Commission development are complete.
 - First Jester Work `JST-E001-01` completed in Observation mode; `JR-E001-01` is preserved.
-- Mandatory non-Jester continuation of `JR-E001-01` is complete through `ADI-JR-E001-01` and `RECON-E001-0002`.
-- Jester-derived HOW/documentation mismatches `JR1-A4/A5` were resolved by `HOW-E001-01`; Target HOW revision 3 and the public compatibility projection are accepted current state.
-- Product repair concerns `JR1-A1/A2/A3/A6` remain admitted and unresolved.
+- Mandatory non-Jester continuation of `JR-E001-01` completed through Actor Input Development and reconciliation.
+- Jester-derived HOW/documentation mismatches were resolved by `HOW-E001-01`; Target HOW revision 3 and public compatibility projection are accepted current state.
+- `PLAN-E001-01` and `READINESS-E001-01` are complete.
+- `IMPLEMENTATION-E001-01` established exact Product candidate `4a7c1d5b2bea939ebd508dcce19c4e93f58149cf` for the four admitted Product repairs.
+- `VERIFICATION-E001-01` verified that exact candidate as conforming within its declared evidence envelope; Windows CI run `34972485636` completed successfully.
+- `RECON-E001-0004` corrected the stale pre-implementation projection.
 
 ## Current posture
 
-`PLAN-E001-01` is the only eligible substantive Work. It must form a bounded implementation plan for the four admitted Product repair concerns against exact Product Baseline `b2caf...` and Target HOW revision 3.
+The current admitted Product remains `PRODUCT-0001 / b2caf...`. Candidate `4a7c1d5...` is **VERIFIED_CONFORMING / ELIGIBLE_FOR_INTEGRATION**, not yet admitted.
 
-No Product mutation is yet authorized by Work State alone. Second Jester remains waiting for stable post-repair integration. Summaries, Epoch Development Report, closure audit, and finalization remain downstream.
+MADARAII-34 integration is the only eligible substantive Work. It must revalidate current Product and candidate identity immediately before admission, integrate only the verified Product-surface delta, reconcile affected Target HOW/evidence owners, and establish the new Product Baseline if all admission conditions still hold.
+
+Second Jester is `WAITING_FOR_POST_INTEGRATION_BASELINE`. Summaries, Epoch Development Report, closure audit, and finalization remain downstream of the second-Jester mandatory continuation and any justified follow-up.
 
 ## Recovery route
 
-Open `_mw/AGENTS.md`, reread current `FOUNDATION`, MADARAII-30 and EXAMPLE-30, then resolve `RECON-E001-0002`, current Target WHAT/HOW owners, Product `b2caf...`, and only the implicated Product source/verification files. Prior planning ideas in actor context are non-authoritative.
+Open `_mw/AGENTS.md`, reread current `FOUNDATION`, MADARAII-34 and EXAMPLE-34, then resolve current Product owner, exact candidate `4a7c1d5...`, `IMPLEMENTATION-E001-01`, `VERIFICATION-E001-01`, Target WHAT rev.2, Target HOW rev.3, and only affected owner/evidence surfaces. If any exact binding drifts, stop and reconcile rather than infer currentness from branch HEAD.
