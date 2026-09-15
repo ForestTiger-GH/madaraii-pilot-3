@@ -1,3 +1,4 @@
+using MiniDoc;
 using MiniDoc.Docx;
 using MiniDoc.Editor;
 using MiniDoc.Pdf;
