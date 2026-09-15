@@ -8,16 +8,18 @@
 ## Established
 
 - Legacy `WORK-0001` remains closed with `CLOSURE-0001 = PASS`.
-- Workspace reconfiguration for current MADARAII is complete: `WA-0001 revision 2`, `_mw/AGENTS.md`, `EPOCH-001`.
-- Human Commission carrier `INBOX-0001` was developed as `INPUT-DEV-E001-0001` and archived without changing its semantic acts.
-- `RECON-E001-0001` admitted first Jester Work `JST-E001-01` in Observation mode.
+- Workspace reconfiguration and Commission development are complete.
+- First Jester Work `JST-E001-01` completed its live Observation trajectory without Product/Knowledge/Decision mutation.
+- Standalone Report `JR-E001-01` is established at `results/jester/JR-E001-01.md`, bound to Product Baseline `b2caf...`.
 
 ## Current posture
 
-`JST-E001-01` is the only active/eligible substantive Work. Its exact Subject is Product Baseline `b2caf...`; Product mutation is prohibited. Mandatory successor `ADI-JR-E001-01` is separately authorized but waiting for the established Jester Report and non-mutation confirmation.
+`JST-E001-01` is `REPORT_ESTABLISHED_HANDOFF_ACCEPTED`; its mandatory continuation has been accepted by separately authorized `ADI-JR-E001-01`.
 
-Second Jester, summaries, Development Report, closure audit, and finalization remain waiting on their real dependencies.
+`ADI-JR-E001-01` is now the only eligible substantive Work. It must develop the Jester Report's recorded actions/observations into bounded semantic acts under MADARAII-03 without treating surprise as defect or repair Authority. MADARAII-04 follows before any specialized change Work.
+
+The Product Baseline is still `b2caf...`. Second Jester, summaries, Development Report, closure audit, and finalization remain waiting on pass-1 reconciliation and any justified integration.
 
 ## Recovery route
 
-Open `_mw/AGENTS.md`, reread current `FOUNDATION`, MADARAII-40 and EXAMPLE-40, then open `work/JST-E001-01.md` and resolve exact Product/Knowledge inputs needed for the provocative trajectory. Prior actor reasoning is non-authoritative.
+Open `_mw/AGENTS.md`, reread current `FOUNDATION`, MADARAII-03 and EXAMPLE-03, then process exact Subject `results/jester/JR-E001-01.md` against the current Product/Knowledge/Decision owners. Prior Jester framing is evidence/history, not downstream Authority.
