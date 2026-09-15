@@ -18,7 +18,7 @@ public static class DocumentWriter
             stream.Write(bytes, 0, bytes.Length);
             stream.Flush(flushToDisk: true);
         }
-        catch
+        catch (Exception writeFailure)
         {
             try
             {
@@ -30,9 +30,11 @@ public static class DocumentWriter
                 }
                 else if (File.Exists(fullPath)) File.Delete(fullPath);
             }
-            catch
+            catch (Exception recoveryFailure)
             {
-                // The original failure remains authoritative. Documentation states that power/process failure is not atomic.
+                throw new IOException(
+                    "Save failed and MiniDoc could not restore the previous target. Target integrity is unknown.",
+                    new AggregateException(writeFailure, recoveryFailure));
             }
             throw;
         }
