@@ -20,7 +20,8 @@
 |---|---|
 | Work Architecture | [`architecture/WORK-ARCHITECTURE.md`](architecture/WORK-ARCHITECTURE.md) |
 | Active epoch Work State | [`epochs/001-jester-finalization/work/STATE.md`](epochs/001-jester-finalization/work/STATE.md) |
-| Active epoch Commission carrier | [`epochs/001-jester-finalization/inbox/INBOX-0001.md`](epochs/001-jester-finalization/inbox/INBOX-0001.md) |
+| Active epoch developed Commission | [`epochs/001-jester-finalization/intake/INBOX-0001-developed.md`](epochs/001-jester-finalization/intake/INBOX-0001-developed.md) |
+| Preserved raw Commission carrier | [`epochs/001-jester-finalization/inbox/archive/INBOX-0001.md`](epochs/001-jester-finalization/inbox/archive/INBOX-0001.md) |
 | Legacy closed Work contour | [`work/WORK-0001.md`](work/WORK-0001.md), [`work/STATE.md`](work/STATE.md), [`results/CLOSURE.md`](results/CLOSURE.md) |
 | Product | [`product/PRODUCT.md`](product/PRODUCT.md) and its bound repository Product surfaces |
 | Scientific Knowledge | [`knowledge/SCIENCE.md`](knowledge/SCIENCE.md) |
@@ -44,7 +45,7 @@ Challenge the closed MiniDoc with one Jester pass, process and integrate only ju
 ## Local artifact policy
 
 - UTF-8 text unless the Product format requires otherwise.
-- Raw human carriers are immutable.
+- Raw human carriers are immutable; processed carriers move to the epoch inbox archive without acquiring semantic-owner status.
 - Stable identity is explicit where independent reference/recovery has value; filename alone is not identity.
 - Shared current Product/Knowledge/Decision/Evidence owners stay outside the epoch.
 - Epoch-specific Work State, Jester Reports, follow-up Results, summaries, report, closure audit, and finalization evidence live under the active epoch.
