@@ -6,6 +6,8 @@ This file is retained as a compatibility route for the pre-epoch MiniDoc contour
 **Active Development Epoch:** none  
 **Most recent finalized epoch:** [`epochs/001-jester-finalization/EPOCH.md`](epochs/001-jester-finalization/EPOCH.md)  
 **Finalized EPOCH-001 Work State:** [`epochs/001-jester-finalization/work/STATE.md`](epochs/001-jester-finalization/work/STATE.md)  
+**Closure Audit:** [`epochs/001-jester-finalization/results/CLOSURE-AUDIT-E001-01.md`](epochs/001-jester-finalization/results/CLOSURE-AUDIT-E001-01.md)  
+**Finalization Result:** [`epochs/001-jester-finalization/results/FINALIZATION-E001-01.md`](epochs/001-jester-finalization/results/FINALIZATION-E001-01.md)  
 **Sealed Development Report:** [`../development-reports/epoch-001-jester-finalization.md`](../development-reports/epoch-001-jester-finalization.md)
 
 The original Product-development contour `WORK-0001` and EPOCH-001 are both closed historical Work. Do not use either historical Work State as current Product truth.
