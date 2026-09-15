@@ -52,9 +52,10 @@ The post-closure Jester finalization epoch moved the admitted Product lineage:
 → `4a7c1d5b2bea939ebd508dcce19c4e93f58149cf`
 → `1df3b56528ac04b4f0d0a043593365b575007b93`
 
-Its closure audit passed. The durable sealed Development Report is published outside the epoch Work Plane at:
+Its closure audit passed and `FINALIZATION-E001-01` established the epoch as finalized / archive-ready, while explicitly leaving physical archival as a separate future action.
 
-- [`development-reports/epoch-001-jester-finalization.md`](development-reports/epoch-001-jester-finalization.md)
+- [Finalization Result](_mw/epochs/001-jester-finalization/results/FINALIZATION-E001-01.md)
+- [Sealed Development Report](development-reports/epoch-001-jester-finalization.md)
 
 The standalone Jester Reports and detailed Work history remain separately preserved under the epoch history; the sealed Development Report does not replace them.
 
