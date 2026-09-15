@@ -8,6 +8,7 @@
 **Final Target:** `TARGET-WHAT-0001` revision 3 / `TARGET-HOW-0001` revision 5  
 **Final Product Architecture:** `PA-0001 revision 3`  
 **Closure audit:** `CLOSURE-E001-01 = PASS` at audited repository Baseline `5c8b6d3ad69fc3fc80782f3a3a27b915b0751860`  
+**Finalization Result:** [`results/FINALIZATION-E001-01.md`](results/FINALIZATION-E001-01.md)  
 **Sealed Development Report:** `EDR-E001@1` → `development-reports/epoch-001-jester-finalization.md`  
 **Governing MADARAII:** `721a199352b5c5282b1478cd6a5eb36a9872fb34`
 
@@ -29,7 +30,7 @@ The epoch did not invalidate or reopen legacy `WORK-0001`; it used the closed Pr
 8. Work summaries — complete (`SUMMARY-E001-01/02`);
 9. Epoch Development Report — complete and sealed as `EDR-E001@1` outside the removable epoch Work Plane;
 10. closure audit — complete, `PASS`;
-11. finalization / archive-readiness — complete under MADARAII-37.
+11. finalization / archive-readiness — complete under `FINALIZATION-E001-01`.
 
 ## Final substantive state
 
@@ -55,7 +56,7 @@ Any later archival action must preserve losslessly:
 
 - both standalone Jester Reports and their developed continuations;
 - Plans, readiness, implementation, verification, integration and reconciliation history needed to audit the epoch;
-- `CLOSURE-AUDIT-E001-01` and the finalization Result;
+- `CLOSURE-AUDIT-E001-01` and `FINALIZATION-E001-01`;
 - raw Commission carrier and developed Commission;
 - summaries and the pre-seal Development Report candidate as history.
 
